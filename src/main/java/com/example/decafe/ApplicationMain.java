@@ -9,18 +9,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 // Class used to start the JavaFX Application
-public class HelloApplication extends Application {
+public class ApplicationMain extends Application {
 
     public static Stage stage;
     @Override
     // Start Application by starting the Stage
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("startScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource("startScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        HelloApplication.stage = stage;
+        ApplicationMain.stage = stage;
         stage.getIcons().add(new Image("file:src/main/resources/com/example/decafe/mugTabPic.png"));
         stage.setTitle("DeCafé");
-        HelloApplication.stage.setResizable(false);
+        ApplicationMain.stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 

@@ -16,15 +16,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 
 // Class that is responsible for every action taken in JavaFX GUI (connected via fxml files)
-public class HelloController implements Initializable {
+public class AppController implements Initializable {
 
     // Assets of the Start Screen
     public ImageView startButton;
@@ -125,25 +123,26 @@ public class HelloController implements Initializable {
     public ImageView quitEndScreenImage;
 
     // Player object created to change Images and movement Speed
-    public Player CofiBrew = new Player("CofiBrewUp.png", "CofiBrewCakeLeft.png", "CofiBrewCoffeeLeft.png", 4);
+    public Player player = new Player("CofiBrewUp.png", "CofiBrewCakeLeft.png", "CofiBrewCoffeeLeft.png", 4);
     // Game object used to control main methods
-    public Game Play;
+    public Game game;
     // Label array used for collision detection management
     private Label[] collisions;
     // Timer used to spawn customers or make them leave
     public Timer controllerTimer = new Timer();
 
     public File f = new File("");
+    public final static String  STRINGRESOURCES = "resources";
     public String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "backgroundmusic.mp3";
     public AudioClip backgroundMusic = new AudioClip(new File(musicFile).toURI().toString());
 
 
     // Method used to load a certain scene according to the name of the fxml file
     public void loadScene(String sceneName) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(sceneName));
+        FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(sceneName));
         Scene scene = new Scene(fxmlLoader.load());
-        HelloApplication.stage.setScene(scene);
-        HelloApplication.stage.show();
+        ApplicationMain.stage.setScene(scene);
+        ApplicationMain.stage.show();
     }
 
     // jump to end screen
@@ -202,7 +201,7 @@ public class HelloController implements Initializable {
     AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long timestamp) {
-            int movementVariable = CofiBrew.getMovement();
+            int movementVariable = player.getMovement();
             double move = movementVariable; // store movementVariable in new variable
             String movement = "none";
 
@@ -252,11 +251,11 @@ public class HelloController implements Initializable {
             } else {
                 if (movement.equals("up")){
                     try {
-                        if (CofiBrew.getProductInHand().equals("none")) {
+                        if (player.getProductInHand().equals("none")) {
                             waiterImageView.setImage(createImage("CofiBrewUp.png"));
-                        } else if (CofiBrew.getProductInHand().equals("cake")){
+                        } else if (player.getProductInHand().equals("cake")){
                             waiterImageView.setImage(createImage("CofiBrewCakeUp.png"));
-                        } else if (CofiBrew.getProductInHand().equals("coffee")){
+                        } else if (player.getProductInHand().equals("coffee")){
                             waiterImageView.setImage(createImage("CofiBrewCoffeeUp.png"));
                         }
                     } catch (FileNotFoundException e) {
@@ -264,11 +263,11 @@ public class HelloController implements Initializable {
                     }
                 } else if (movement.equals("down")){
                     try {
-                        if (CofiBrew.getProductInHand().equals("none")) {
+                        if (player.getProductInHand().equals("none")) {
                             waiterImageView.setImage(createImage("CofiBrewDown.png"));
-                        } else if (CofiBrew.getProductInHand().equals("cake")){
+                        } else if (player.getProductInHand().equals("cake")){
                             waiterImageView.setImage(createImage("CofiBrewCakeDown.png"));
-                        } else if (CofiBrew.getProductInHand().equals("coffee")){
+                        } else if (player.getProductInHand().equals("coffee")){
                             waiterImageView.setImage(createImage("CofiBrewCoffeeDown.png"));
                         }
                     } catch (FileNotFoundException e) {
@@ -276,11 +275,11 @@ public class HelloController implements Initializable {
                     }
                 } else if (movement.equals("left")){
                     try {
-                        if (CofiBrew.getProductInHand().equals("none")) {
+                        if (player.getProductInHand().equals("none")) {
                             waiterImageView.setImage(createImage("CofiBrewLeft.png"));
-                        } else if (CofiBrew.getProductInHand().equals("cake")){
+                        } else if (player.getProductInHand().equals("cake")){
                             waiterImageView.setImage(createImage("CofiBrewCakeLeft.png"));
-                        } else if (CofiBrew.getProductInHand().equals("coffee")){
+                        } else if (player.getProductInHand().equals("coffee")){
                             waiterImageView.setImage(createImage("CofiBrewCoffeeLeft.png"));
                         }
                     } catch (FileNotFoundException e) {
@@ -288,11 +287,11 @@ public class HelloController implements Initializable {
                     }
                 } else if (movement.equals("right")){
                     try {
-                        if (CofiBrew.getProductInHand().equals("none")) {
+                        if (player.getProductInHand().equals("none")) {
                             waiterImageView.setImage(createImage("CofiBrewRight.png"));
-                        } else if (CofiBrew.getProductInHand().equals("cake")){
+                        } else if (player.getProductInHand().equals("cake")){
                             waiterImageView.setImage(createImage("CofiBrewCakeRight.png"));
-                        } else if (CofiBrew.getProductInHand().equals("coffee")){
+                        } else if (player.getProductInHand().equals("coffee")){
                             waiterImageView.setImage(createImage("CofiBrewCoffeeRight.png"));
                         }
                     } catch (FileNotFoundException e) {
@@ -306,13 +305,13 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        keyPressed.addListener((((observableValue, aBoolean, t1) -> { // if any key from the four keys is pressed
+        keyPressed.addListener((observableValue, aBoolean, t1) -> { // if any key from the four keys is pressed
             if (!aBoolean) {
                 timer.start();
             } else {
                 timer.stop();
             }
-        })));
+        });
 
         // transparent labels on top of the images to look for collisions
         collisions = new Label[]{plant, plantsAbove, customerBot1, customerBot2, customerBot3, customerTop1, customerTop2, customerTop3, customerTop4, table1, table2, table3, table4, edgeBot, edgeLeft, edgeRight, edgeTop, countRight, countBelow};
@@ -324,7 +323,7 @@ public class HelloController implements Initializable {
         Customer.coinImages = new ImageView[]{coinFirst, coinSecond, coinThird, coinFourth, coinFifth, coinSixth, coinSeventh}; //make coin ImageView[]
         Customer.freeChairs = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6)); //make freeChairs Array
         Customer.setControllerTimer(controllerTimer); //set the static timer t
-        Play = new Game(upgradeCoffeeImageView, upgradeCakeImageView, upgradePlayerImageView); // initialise Game Object with upgrade ImageViews
+        game = new Game(upgradeCoffeeImageView, upgradeCakeImageView, upgradePlayerImageView); // initialise Game Object with upgrade ImageViews
     }
 
 
@@ -399,11 +398,10 @@ public class HelloController implements Initializable {
     // if waiter is near coffee machine, change appearance when clicked
     public void showCoffee() throws FileNotFoundException {
         if (waiterImageView.getBoundsInParent().intersects(coffeeMachineImageView.getBoundsInParent())) {
-            Play.getCoffeeMachine().displayProduct(waiterImageView, coffeeMachineImageView, CofiBrew, progressBarCoffee);
+            game.getCoffeeMachine().displayProduct(waiterImageView, coffeeMachineImageView, player, progressBarCoffee);
             File f = new File("");
             String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "test_sound.wav";
             AudioClip coffeeSound = new AudioClip(new File(musicFile).toURI().toString());
-            //MediaPlayer coffeeSound = new MediaPlayer(sound);
             coffeeSound.play();
         }
     }
@@ -411,25 +409,24 @@ public class HelloController implements Initializable {
     // if waiter is near cake machine, change appearance when clicked
     public void showCake() throws FileNotFoundException {
         if (waiterImageView.getBoundsInParent().intersects(cakeMachineImageView.getBoundsInParent())) {
-            Play.getCakeMachine().displayProduct(waiterImageView, cakeMachineImageView, CofiBrew, progressBarCake);
+            game.getCakeMachine().displayProduct(waiterImageView, cakeMachineImageView, player, progressBarCake);
             File f = new File("");
             String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "test_sound.wav";
             AudioClip cakeSound = new AudioClip(new File(musicFile).toURI().toString());
-            //MediaPlayer cakeSound = new MediaPlayer(sound);
             cakeSound.play();
         }
     }
 
     // if no product is held by waiter
     public void noProduct() throws FileNotFoundException {
-        if (CofiBrew.getProductInHand().equals("coffee") || CofiBrew.getProductInHand().equals("cake")) {
+        if (player.getProductInHand().equals("coffee") || player.getProductInHand().equals("cake")) {
             File f = new File("");
             String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "trashSound.mp3";
             AudioClip trashSound = new AudioClip(new File(musicFile).toURI().toString());
             //MediaPlayer cakeSound = new MediaPlayer(sound);
             trashSound.play();
-            waiterImageView.setImage(createImage(CofiBrew.getFilenameImageWithoutProduct()));
-            CofiBrew.setProductInHand("none");
+            waiterImageView.setImage(createImage(player.getFilenameImageWithoutProduct()));
+            player.setProductInHand("none");
         }
     }
 
@@ -457,14 +454,14 @@ public class HelloController implements Initializable {
                 } catch (NullPointerException e) {
                     switchToEndScreen();
                 }
-                if (customer.checkOrder(CofiBrew, customer, waiterImageView)) { // check if order the waiter has in his hands is the one the customer ordered
+                if (customer.checkOrder(player, customer, waiterImageView)) { // check if order the waiter has in his hands is the one the customer ordered
                     String moneyImage = ""; // if so set the relating coin ImageView
                     if (customer.isGreen()) { // if customer left happy
-                        moneyImage = Play.getFilenameImageDollar();
+                        moneyImage = game.getFilenameImageDollar();
                     } else if (customer.isYellow()) { // if customer left normal
-                        moneyImage = Play.getFilenameImageFourCoins();
+                        moneyImage = game.getFilenameImageFourCoins();
                     } else if (customer.isRed()) { // if customer left sad
-                        moneyImage = Play.getFilenameImageThreeCoins();
+                        moneyImage = game.getFilenameImageThreeCoins();
                     }
                     customer.getCoinImage().setImage(createImage(moneyImage)); //set coin image
                     customer.getCoinImage().setOnMouseClicked(event1 -> { // set click event for coin image
@@ -485,26 +482,25 @@ public class HelloController implements Initializable {
 
     // Method to check if an Upgrade can be made (check if player has earned enough coins and if it was already used or not)
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
-        Play.checkUpgradePossible(upgrade);
+        game.checkUpgradePossible(upgrade);
     }
 
     // Method to actively use an Upgrade
     public void doUpgrade(MouseEvent e) throws FileNotFoundException {
         // activate the Upgrade (according to whatever ImageView was chosen)
-        Play.doUpgrade(((ImageView) e.getSource()).getId(), CofiBrew);
+        game.doUpgrade(((ImageView) e.getSource()).getId(), player);
         // set the coin label to the correct amount of coins (coins earned - upgrade costs)
-        coinsEarnedLabel.setText(String.valueOf(Play.getCoinsEarned()));
+        coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned()));
 
         File f = new File("");
         String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "upgradeSound.wav";
         AudioClip getUpgrade = new AudioClip(new File(musicFile).toURI().toString());
-        //MediaPlayer collectMoney = new MediaPlayer(sound);
         getUpgrade.play();
 
         // check if other upgrades are still possible or if they need to be "deactivated"
-        checkUpgradePossible(Play.getCoffeeUpgrade());
-        checkUpgradePossible(Play.getCakeUpgrade());
-        checkUpgradePossible(Play.getPlayerUpgrade());
+        checkUpgradePossible(game.getCoffeeUpgrade());
+        checkUpgradePossible(game.getCakeUpgrade());
+        checkUpgradePossible(game.getPlayerUpgrade());
     }
 
     // check if collisions occur
@@ -522,18 +518,17 @@ public class HelloController implements Initializable {
         File f = new File("");
         String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "coinsSound.wav";
         AudioClip collectMoney = new AudioClip(new File(musicFile).toURI().toString());
-        //MediaPlayer collectMoney = new MediaPlayer(sound);
         collectMoney.play();
         Customer.addFreeSeat(customer.getChair()); // add the seat chosen from the customer to the freeSeatsArray again
-        Play.setCoinsEarned(customer); // set the money earned according to what amount of money the customer left
+        game.setCoinsEarned(customer); // set the money earned according to what amount of money the customer left
         ((ImageView) e.getSource()).setVisible(false); // disable the coin Image and make it invisible
         ((ImageView) e.getSource()).setDisable(true);
 
-        if (Play.getCoinsEarned() < 80) { // check if enough coins were earned to end the game
-            checkUpgradePossible(Play.getCoffeeUpgrade()); // if not, check if any upgrades would be possible
-            checkUpgradePossible(Play.getCakeUpgrade());
-            checkUpgradePossible(Play.getPlayerUpgrade());
-            coinsEarnedLabel.setText(String.valueOf(Play.getCoinsEarned())); // refresh the coin score shown in GUI
+        if (game.getCoinsEarned() < 80) { // check if enough coins were earned to end the game
+            checkUpgradePossible(game.getCoffeeUpgrade()); // if not, check if any upgrades would be possible
+            checkUpgradePossible(game.getCakeUpgrade());
+            checkUpgradePossible(game.getPlayerUpgrade());
+            coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned())); // refresh the coin score shown in GUI
             try {
                 customer.startTimerSpawn(5, Customer.getControllerTimer()); // spawn a new customer
             } catch (NullPointerException y) {
@@ -555,7 +550,7 @@ public class HelloController implements Initializable {
         Customer.allCustomers.clear(); // clear all Lists created by spawning/despawning customer
         Customer.customersInCoffeeShop.clear();
         Customer.freeChairs.clear();
-        CofiBrew.setProductInHand("none"); // clear Cofis hand
+        player.setProductInHand("none"); // clear Cofis hand
         controllerTimer.cancel(); // cancel spawn/leaving timer
         Customer.getControllerTimer().cancel();
     }
