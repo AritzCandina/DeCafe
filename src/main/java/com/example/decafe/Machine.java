@@ -30,6 +30,8 @@ public class Machine {
 
     private final int milliSec300 = 300;
 
+    private final long multiplicator1000 = 1000;
+
     // Constructor
     public Machine(int duration, String filenameImageMachineWithProduct, String filenameImageMachineWithoutProduct, String productType){
         this.duration = duration;
@@ -120,7 +122,7 @@ public class Machine {
                         productionTimer.cancel();
                     }
                 },
-                this.duration* 1000L
+                this.duration* multiplicator1000
         );
     }
 
