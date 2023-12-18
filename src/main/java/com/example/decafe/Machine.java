@@ -28,6 +28,8 @@ public class Machine {
     private final String filenameImageMachineWithProduct; // Image of the Machine with a product already produced
     private final String productType; // The type of the Machine (cake or coffee)
 
+    private final int milliSec300 = 300;
+
     // Constructor
     public Machine(int duration, String filenameImageMachineWithProduct, String filenameImageMachineWithoutProduct, String productType){
         this.duration = duration;
@@ -84,7 +86,7 @@ public class Machine {
         Timeline timelineBar = new Timeline(
                 new KeyFrame(
                         // Set this value for the speed of the animation
-                        Duration.millis(300),
+                        Duration.millis(milliSec300),
                         new KeyValue(statusCountProperty, maxStatus)
                 )
         );
