@@ -20,13 +20,22 @@ public class Game {
     private final String filenameImageFourCoins; // Image of normal amount of money earned
     private final String filenameImageDollar; // Images of huge amount of money earned
 
+    private final int duration5 = 5;
+
+    private final int duration2 = 2;
+
+    private final int movement6 = 6;
+
+    private final int coinsNeeded20 =20;
+    private final int coinsNeeded40 =40;
+
     // Constructor
     Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
-        this.coffeeMachine = new Machine(5, "coffeeMachineWithCoffee.png", "coffeeMachine.png", "coffee");
-        this.cakeMachine = new Machine(5, "kitchenAidUsed.png", "kitchenAid.png", "cake");
-        this.coffeeUpgrade = new Upgrade(20, false, "coffeeUpgrade.png", "coffeeUsed.png",  upgradeCoffee);
-        this.cakeUpgrade = new Upgrade(20, false, "cakeUpgrade.png", "cakeUsed.png", upgradeCake);
-        this.playerUpgrade = new Upgrade(40, false, "upgradeSkates.png", "upgradeSkatesUsed.png",  upgradePlayer);
+        this.coffeeMachine = new Machine(duration5, "coffeeMachineWithCoffee.png", "coffeeMachine.png", "coffee");
+        this.cakeMachine = new Machine(duration5, "kitchenAidUsed.png", "kitchenAid.png", "cake");
+        this.coffeeUpgrade = new Upgrade(coinsNeeded20, false, "coffeeUpgrade.png", "coffeeUsed.png",  upgradeCoffee);
+        this.cakeUpgrade = new Upgrade(coinsNeeded20, false, "cakeUpgrade.png", "cakeUsed.png", upgradeCake);
+        this.playerUpgrade = new Upgrade(coinsNeeded40, false, "upgradeSkates.png", "upgradeSkatesUsed.png",  upgradePlayer);
         this.coinsEarned = 0;
         this.filenameImageDollar = "5coins.png";
         this.filenameImageFourCoins = "4coins.png";
@@ -99,19 +108,19 @@ public class Game {
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = coffeeUpgrade.doUpgrades(coinsEarned);
                 // Increase the speed of the Coffee Machine
-                coffeeMachine.setDuration(2);
+                coffeeMachine.setDuration(duration2);
             }
             case "cake" -> { // If the player chose the cake upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = cakeUpgrade.doUpgrades(coinsEarned);
                 // Increase the speed of the Cake Machine
-                cakeMachine.setDuration(2);
+                cakeMachine.setDuration(duration2);
             }
             case "player" -> { // If the player chose the player upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = playerUpgrade.doUpgrades(coinsEarned);
                 // Increase the movement speed of the Player
-                CofiBrew.setMovement(6);
+                CofiBrew.setMovement(movement6);
             }
         }
     }

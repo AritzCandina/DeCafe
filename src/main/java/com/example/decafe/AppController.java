@@ -122,8 +122,14 @@ public class AppController implements Initializable {
     public ImageView endScreenBackground;
     public ImageView quitEndScreenImage;
 
+    private int movement_4 = 4;
+    private int durationForStartTimer1 = 1;
+
+    private int durationForStartTimer5 = 5;
+    private int durationForStartTimer10 = 10;
+
     // Player object created to change Images and movement Speed
-    public Player player = new Player("CofiBrewUp.png", "CofiBrewCakeLeft.png", "CofiBrewCoffeeLeft.png", 4);
+    public Player player = new Player("CofiBrewUp.png", "CofiBrewCakeLeft.png", "CofiBrewCoffeeLeft.png", movement_4);
     // Game object used to control main methods
     public Game game;
     // Label array used for collision detection management
@@ -161,9 +167,9 @@ public class AppController implements Initializable {
         loadScene("gameScreen.fxml");
         if (Customer.customerImages[0] != null) {
             Customer customer = new Customer();
-            customer.startTimerSpawn(1, Customer.getControllerTimer());
-            customer.startTimerSpawn(5, Customer.getControllerTimer());
-            customer.startTimerSpawn(10, Customer.getControllerTimer());
+            customer.startTimerSpawn(durationForStartTimer1, Customer.getControllerTimer());
+            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer());
+            customer.startTimerSpawn(durationForStartTimer10, Customer.getControllerTimer());
             Customer.allCustomers.add(customer);
         }
         backgroundMusic.setCycleCount(AudioClip.INDEFINITE);
@@ -450,7 +456,7 @@ public class AppController implements Initializable {
         } else {
             if (customerImageView.getBoundsInParent().intersects(waiterImageView.getBoundsInParent())) { // If customer has already ordered and waiter is near the customer
                 try {
-                    customer.startTimerSpawn(5, Customer.getControllerTimer()); // spawn a new customer if a chair is free
+                    customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer()); // spawn a new customer if a chair is free
                 } catch (NullPointerException e) {
                     switchToEndScreen();
                 }
@@ -530,7 +536,7 @@ public class AppController implements Initializable {
             checkUpgradePossible(game.getPlayerUpgrade());
             coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned())); // refresh the coin score shown in GUI
             try {
-                customer.startTimerSpawn(5, Customer.getControllerTimer()); // spawn a new customer
+                customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer()); // spawn a new customer
             } catch (NullPointerException y) {
                 switchToEndScreen();
             }

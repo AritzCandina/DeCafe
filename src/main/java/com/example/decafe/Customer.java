@@ -37,6 +37,10 @@ public class Customer {
     public static ImageView[] orderLabels; //label for order
     public static ImageView[] coinImages; //image for coins
 
+    private int delay1000 = 1000;
+
+    private int duration5 = 5;
+
     // Constructors
     Customer(){}
     Customer(ImageView image, ImageView label, int chair, ImageView smiley, ImageView coinImage) {
@@ -245,7 +249,7 @@ public class Customer {
                         controllerTimer.purge();
                     }
                 },
-                1000
+                delay1000
         );
         this.sixtySecondsTimer.cancel(); //cancel the 60 seconds when customer left
     }
@@ -350,7 +354,7 @@ public class Customer {
         customer.coinImage.setVisible(false);
         customer.coinImage.setDisable(true);
         freeChairs.add(customer.getChair());
-        customer.startTimerSpawn(5, controllerTimer);
+        customer.startTimerSpawn(customer.duration5, controllerTimer);
     }
 
     //Methode for when the customer leaves
