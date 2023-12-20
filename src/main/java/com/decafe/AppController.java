@@ -3,11 +3,7 @@ package com.decafe;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Timer;
+import java.util.*;
 
 import com.decafe.game.Customer;
 import com.decafe.game.Game;
@@ -16,6 +12,7 @@ import com.decafe.game.Player;
 import com.decafe.game.PlayerMovementDirection;
 import com.decafe.game.Upgrade;
 import com.decafe.resources.ResourceProvider;
+import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;
 import com.decafe.resources.files.MusicFiles;
 
@@ -181,6 +178,7 @@ public class AppController implements Initializable {
             customer.startTimerSpawn(durationForStartTimer10, Customer.getControllerTimer());
             Customer.allCustomers.add(customer);
         }
+
         backgroundMusic.setCycleCount(AudioClip.INDEFINITE);
         backgroundMusic.play();
     }
@@ -419,8 +417,7 @@ public class AppController implements Initializable {
     public void showCoffee() throws FileNotFoundException {
         if (waiterImageView.getBoundsInParent().intersects(coffeeMachineImageView.getBoundsInParent())) {
             game.getCoffeeMachine().displayProduct(waiterImageView, coffeeMachineImageView, player, progressBarCoffee);
-            AudioClip coffeeSound = ResourceProvider.createAudioFile(MusicFiles.TEST_SOUND);
-            coffeeSound.play();
+            SoundPlayer.playSound(MusicFiles.TEST_SOUND);
         }
     }
 
@@ -428,17 +425,14 @@ public class AppController implements Initializable {
     public void showCake() throws FileNotFoundException {
         if (waiterImageView.getBoundsInParent().intersects(cakeMachineImageView.getBoundsInParent())) {
             game.getCakeMachine().displayProduct(waiterImageView, cakeMachineImageView, player, progressBarCake);
-            AudioClip cakeSound = ResourceProvider.createAudioFile(MusicFiles.TEST_SOUND);
-            cakeSound.play();
+            SoundPlayer.playSound(MusicFiles.TEST_SOUND);
         }
     }
 
     // if no product is held by waiter
     public void noProduct() throws FileNotFoundException {
         if (player.getProductInHand().equals("coffee") || player.getProductInHand().equals("cake")) {
-            AudioClip trashSound = ResourceProvider.createAudioFile(MusicFiles.TRASH_SOUND);
-            //MediaPlayer cakeSound = new MediaPlayer(sound);
-            trashSound.play();
+            SoundPlayer.playSound(MusicFiles.TRASH_SOUND);
             waiterImageView.setImage(ResourceProvider.createImage(player.getFilenameImageWithoutProduct()));
             player.setProductInHand("none");
         }
@@ -535,8 +529,7 @@ public class AppController implements Initializable {
         // set the coin label to the correct amount of coins (coins earned - upgrade costs)
         coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned()));
 
-        AudioClip getUpgrade = ResourceProvider.createAudioFile(MusicFiles.UPGRADE_SOUND);
-        getUpgrade.play();
+        SoundPlayer.playSound(MusicFiles.UPGRADE_SOUND);
 
         // check if other upgrades are still possible or if they need to be "deactivated"
         checkUpgradePossible(game.getCoffeeUpgrade());
@@ -556,7 +549,7 @@ public class AppController implements Initializable {
 
     // Method used when coin Image is clicked on
     public void getMoney(MouseEvent e, Customer customer) throws FileNotFoundException {
-        playCollectMoneySound();
+        SoundPlayer.playSound(MusicFiles.COINS_SOUND);
         Customer.addFreeSeat(customer.getChair());
         updateGameCoinsEarned(customer);
         hideCoinImage(e);
@@ -567,11 +560,6 @@ public class AppController implements Initializable {
             updateGameUI();
             spawnNewCustomer(customer);
         }
-    }
-
-    private void playCollectMoneySound() {
-        AudioClip collectMoney = ResourceProvider.createAudioFile(MusicFiles.COINS_SOUND);
-        collectMoney.play();
     }
 
     private void updateGameCoinsEarned(Customer customer) {
@@ -611,11 +599,11 @@ public class AppController implements Initializable {
 
     // Method used to stop all the timers activated by spawning customers
     public void stopTimers() {
-        for (Customer customer : Customer.allCustomers) { // cancel all 60 seconds timers
-            if (customer.getSixtySecondsTimer() != null) {
-                customer.getSixtySecondsTimer().cancel();
-            }
-        }
+        Customer.allCustomers.stream()
+                .map(Customer::getSixtySecondsTimer)
+                .filter(Objects::nonNull)
+                .forEach(Timer::cancel);
+
         Customer.allCustomers.clear(); // clear all Lists created by spawning/despawning customer
         Customer.customersInCoffeeShop.clear();
         Customer.freeChairs.clear();

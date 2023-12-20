@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.decafe.resources.ResourceProvider;
+import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;
 import com.decafe.resources.files.MusicFiles;
 
@@ -207,9 +208,7 @@ public class Customer {
             customersInCoffeeShop.add(customer); //to check if not more than 3 customers are in the store
             allCustomers.add(customer); //to stop all timers that are still alive even after customer has left
 
-            AudioClip doorBell = ResourceProvider.createAudioFile(MusicFiles.DOOR_BELL);
-            //MediaPlayer doorBell = new MediaPlayer(sound);
-            doorBell.play();
+            SoundPlayer.playSound(MusicFiles.DOOR_BELL);
             customer.waitingTime(); //place customer in the waitingTime of  60 seconds
         }
     }
@@ -359,9 +358,7 @@ public class Customer {
         this.coinImage.setVisible(true);
         this.coinImage.setDisable(false);
         if (this.leftUnhappy){ //when customer leaves after 60 seconds or received wrong order
-            AudioClip wrongOrder = ResourceProvider.createAudioFile(MusicFiles.WRONG_CHOICE);
-            //MediaPlayer collectMoney = new MediaPlayer(sound);
-            wrongOrder.play();
+            SoundPlayer.playSound(MusicFiles.WRONG_CHOICE);
             this.coinImage.setImage(ResourceProvider.createImage(ImageFiles.COIN)); // set coin Image to empty plate
             this.coinImage.setOnMouseClicked(event1 -> { // set click event to this
                 try {
@@ -371,9 +368,7 @@ public class Customer {
                 }
             });
         } else {
-            AudioClip rightOrder = ResourceProvider.createAudioFile(MusicFiles.RIGHT_CHOICE);
-            //MediaPlayer collectMoney = new MediaPlayer(sound);
-            rightOrder.play();
+            SoundPlayer.playSound(MusicFiles.RIGHT_CHOICE);
         }
     }
 }
