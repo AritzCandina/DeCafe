@@ -217,8 +217,9 @@ public class AppController implements Initializable {
 
         @Override
         public void handle(long timestamp) {
-            double movementFactor = determineMovementFactor();
-            MovementVector movementVector = determineNewMovementVector(movementFactor);
+            double moveDistance = determineMoveDistance();
+            MovementVector movementVector = determineNewMovementVector(moveDistance);
+            determinePlayerMovementDirection(movementVector);
             updatePlayerPosition(movementVector);
 
             if (!checkForCollision(waiterImageView)) {
@@ -226,6 +227,8 @@ public class AppController implements Initializable {
             }
         }
     };
+
+
 
     private void updatePlayerPosition(MovementVector movementVector) {
         // set x and y coordinates of waiter
@@ -239,35 +242,46 @@ public class AppController implements Initializable {
         }
     }
 
-    private MovementVector determineNewMovementVector(double movementFactor) {
+    private MovementVector determineNewMovementVector(double moveDistance) {
         MovementVector movementVector = new MovementVector();
         if (wPressed.get()) {
-            movementVector.setY(-movementFactor);
-            player.setPlayerMovementDirection(PlayerMovementDirection.UP);
+            movementVector.setY(-moveDistance);
         }
         if (sPressed.get()) {
-            movementVector.setY(movementFactor);
-            player.setPlayerMovementDirection(PlayerMovementDirection.DOWN);
+            movementVector.setY(moveDistance);
         }
         if (aPressed.get()) {
-            movementVector.setX(-movementFactor);
-            player.setPlayerMovementDirection(PlayerMovementDirection.LEFT);
+            movementVector.setX(-moveDistance);
         }
         if (dPressed.get()) {
-            movementVector.setX(movementFactor);
-            player.setPlayerMovementDirection(PlayerMovementDirection.RIGHT);
+            movementVector.setX(moveDistance);
         }
         return movementVector;
     }
 
-    private double determineMovementFactor() {
+    private void determinePlayerMovementDirection(MovementVector movementVector){
+        if(movementVector.getX()<0){
+            player.setPlayerMovementDirection(PlayerMovementDirection.LEFT);
+        }
+        if(movementVector.getX()>0){
+            player.setPlayerMovementDirection(PlayerMovementDirection.RIGHT);
+        }
+        if(movementVector.getY()<0){
+            player.setPlayerMovementDirection(PlayerMovementDirection.UP);
+        }
+        if(movementVector.getY()>0){
+            player.setPlayerMovementDirection(PlayerMovementDirection.DOWN);
+        }
+    }
+
+    private double determineMoveDistance() {
         int playerMovementSpeed = player.getMovementSpeed();
 
-        double movementFactor = playerMovementSpeed;
+        double moveDistance = playerMovementSpeed;
         if (isDiagonalMovementTriggered()) {
-            movementFactor -= playerMovementSpeed - Math.sqrt(Math.pow(playerMovementSpeed, 2) / 2);
+            moveDistance -= playerMovementSpeed - Math.sqrt(Math.pow(playerMovementSpeed, 2) / 2);
         }
-        return movementFactor;
+        return moveDistance;
     }
 
     private boolean isDiagonalMovementTriggered() {
@@ -593,7 +607,6 @@ public class AppController implements Initializable {
         stopTimers();
         safelySwitchToEndScreen();
     }
-
 
 
     // Method used to stop all the timers activated by spawning customers
