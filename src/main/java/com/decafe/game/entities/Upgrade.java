@@ -1,4 +1,4 @@
-package com.decafe.game;
+package com.decafe.game.entities;
 
 import java.io.FileNotFoundException;
 

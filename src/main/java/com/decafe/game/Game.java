@@ -2,6 +2,10 @@ package com.decafe.game;
 
 import java.io.FileNotFoundException;
 
+import com.decafe.game.entities.Customer;
+import com.decafe.game.entities.Machine;
+import com.decafe.game.entities.Player;
+import com.decafe.game.entities.Upgrade;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.files.ImageFiles;
 
@@ -17,11 +21,8 @@ public class Game {
     private int coinsEarned; // The amount of Coins earned/used in the Game - 0 at the beginning
 
     private final int duration5 = 5;
-
     private final int duration2 = 2;
-
     private final int movement6 = 6;
-
     private final int coinsNeeded20 = 20;
     private final int coinsNeeded40 = 40;
 

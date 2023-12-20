@@ -1,4 +1,4 @@
-package com.decafe.game;
+package com.decafe.game.entities;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.decafe.game.ProductType;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;

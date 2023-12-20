@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.*;
 
 import com.decafe.game.*;
+import com.decafe.game.entities.Customer;
+import com.decafe.game.entities.Player;
+import com.decafe.game.entities.Upgrade;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;
