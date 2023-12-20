@@ -1,12 +1,13 @@
-package com.example.decafe;
+package com.example.decafe.game.upgrade;
 
-// Class to handle Methods used to change the Image and movement speed of waiter
 public class Player {
-    private final String filenameImageWithoutProduct; // Image of the waiter without anything in his hands
-    private final String filenameImageWithCoffee; // Image of the waiter with coffee in his hands
-    private final String filenameImageWithCake; // Image of the waiter with cake in his hands
+    private final String filenameImageWithoutProduct;
+    private final String filenameImageWithCoffee;
+    private final String filenameImageWithCake;
     private String productInHand; // The type of product the waiter holds in his hands (Coffee or Cake)
-    private int movementSpeed; // the movement speed at which the waiter moves
+    private int movementSpeed;
+
+    private PlayerMovementDirection playerMovementDirection;
 
     // Constructor
     public Player(String filenameImageWithoutProduct, String filenameImageWithCake, String filenameImageWithCoffee, int movement) {
@@ -15,6 +16,7 @@ public class Player {
         this.filenameImageWithCoffee = filenameImageWithCoffee;
         this.productInHand = "none";
         this.movementSpeed = movement;
+        this.playerMovementDirection = PlayerMovementDirection.NONE;
     }
 
     //Getter
@@ -34,7 +36,7 @@ public class Player {
         return filenameImageWithCoffee;
     }
 
-    public int getMovement() {
+    public int getMovementSpeed() {
         return movementSpeed;
     }
 
@@ -45,6 +47,14 @@ public class Player {
 
     public void setMovement(int movement) {
         this.movementSpeed = movement;
+    }
+
+    public PlayerMovementDirection getPlayerMovementDirection() {
+        return playerMovementDirection;
+    }
+
+    public void setPlayerMovementDirection(PlayerMovementDirection playerMovementDirection) {
+        this.playerMovementDirection = playerMovementDirection;
     }
 }
 

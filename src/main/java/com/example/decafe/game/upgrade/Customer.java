@@ -1,15 +1,18 @@
-package com.example.decafe;
+package com.example.decafe.game.upgrade;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.example.decafe.resources.ResourceProvider;
+import com.example.decafe.resources.files.ImageFiles;
+import com.example.decafe.resources.files.MusicFiles;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-import java.io.*;
-import java.util.*;
-
 
 public class Customer {
     private String order; //The order of the customer
@@ -42,7 +45,7 @@ public class Customer {
     private int duration5 = 5;
 
     // Constructors
-    Customer(){}
+    public Customer(){}
     Customer(ImageView image, ImageView label, int chair, ImageView smiley, ImageView coinImage) {
         this.customer = image;
         this.orderLabel = label;
@@ -125,13 +128,7 @@ public class Customer {
     }
 
     // Method used to create an Image Object
-    public Image createImage(String filename) throws FileNotFoundException {
-        File f = new File(""); // Get filepath of project
-        // Get path to certain Image
-        String filePath = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + filename;
-        InputStream stream = new FileInputStream(filePath); // Convert path into stream
-        return new Image(stream); // Convert stream to Image and return it
-    }
+
 
     //Returns the appropriate image for the customer
     public static ImageView getImage(ImageView customer, ImageView[] searchArray ){
@@ -206,13 +203,11 @@ public class Customer {
             ImageView smiley = getImage(customerImage, smileyImages); //gets the smiley picture for the customer
             ImageView coin = getImage(customerImage, coinImages); //gets the coin picture for the customer
 
-
             Customer customer = new Customer(customerImage, order, freeSeatChosen, smiley, coin); //make new customer object
             customersInCoffeeShop.add(customer); //to check if not more than 3 customers are in the store
             allCustomers.add(customer); //to stop all timers that are still alive even after customer has left
-            File f = new File("");
-            String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "doorBell.mp3";
-            AudioClip doorBell = new AudioClip(new File(musicFile).toURI().toString());
+
+            AudioClip doorBell = ResourceProvider.createAudioFile(MusicFiles.DOOR_BELL);
             //MediaPlayer doorBell = new MediaPlayer(sound);
             doorBell.play();
             customer.waitingTime(); //place customer in the waitingTime of  60 seconds
@@ -265,7 +260,7 @@ public class Customer {
                 if (seconds == 59){ //set green smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
-                        smiley.setImage(createImage("smileygreen.png"));
+                        smiley.setImage(ResourceProvider.createImage(ImageFiles.SIMLEY_GREEN));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -275,7 +270,7 @@ public class Customer {
                 }else if (seconds == 30){ //set yellow smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
-                        smiley.setImage(createImage("smileyyellow.png"));
+                        smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_YELLOW));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -285,7 +280,7 @@ public class Customer {
                 }else if (seconds == 15){ //set red smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
-                        smiley.setImage(createImage("smileyred.png"));
+                        smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_RED));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -310,24 +305,24 @@ public class Customer {
         if(order.equals("cake")) {
             if (chair == 0 || chair == 1 || chair == 4 || chair == 6) {
                 orderlabel.setVisible(true);
-                orderlabel.setImage(createImage("bubbleCakeTopLeft.png"));
+                orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_CAKE_TOP_LEFT));
             } else if(chair == 2 || chair == 3){
                 orderlabel.setVisible(true);
-                orderlabel.setImage(createImage("bubbleCakeTopRight.png"));
+                orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_CAKE_TOP_RIGHT));
             } else if(chair == 5) {
                 orderlabel.setVisible(true);
-                orderlabel.setImage(createImage("bubbleCakeBottomRight.png"));
+                orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_CAKE_BOTTOM_RIGHT));
             }
         } else if(order.equals("coffee")){
             if (chair == 0 || chair == 1 || chair == 4 || chair == 6) {
                 orderlabel.setVisible(true);
-                orderlabel.setImage(createImage("bubbleCoffeeTopLeft.png"));
+                orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_COFFEE_TOP_LEFT));
             } else if(chair == 2 || chair == 3){
                 orderlabel.setVisible(true);
-                orderlabel.setImage(createImage("bubbleCoffeeTopRight.png"));
+                orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_COFFEE_TOP_RIGHT));
             } else if(chair == 5){
                 orderlabel.setVisible(true);
-                orderlabel.setImage(createImage("bubbleCoffeeBottomRight.png"));
+                orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_COFFEE_BOTTOM_RIGHT));
             }
         }
         this.alreadyOrdered = true;
@@ -336,7 +331,7 @@ public class Customer {
 
     //Methode to check if the order is right or wrong
     public boolean checkOrder(Player CofiBrew, Customer customer, ImageView waiterImage) throws FileNotFoundException{
-        waiterImage.setImage(createImage(CofiBrew.getFilenameImageWithoutProduct())); //set CofiBrew without order
+        waiterImage.setImage(ResourceProvider.createImage(CofiBrew.getFilenameImageWithoutProduct())); //set CofiBrew without order
         if (CofiBrew.getProductInHand().equals(customer.getOrder())) { //if CofiBrew has the right order
             CofiBrew.setProductInHand("none"); // change product hold by player to none
             this.leftUnhappy = false;
@@ -364,12 +359,10 @@ public class Customer {
         this.coinImage.setVisible(true);
         this.coinImage.setDisable(false);
         if (this.leftUnhappy){ //when customer leaves after 60 seconds or received wrong order
-            File f = new File("");
-            String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "wrongChoice.mp3";
-            AudioClip wrongOrder = new AudioClip(new File(musicFile).toURI().toString());
+            AudioClip wrongOrder = ResourceProvider.createAudioFile(MusicFiles.WRONG_CHOICE);
             //MediaPlayer collectMoney = new MediaPlayer(sound);
             wrongOrder.play();
-            this.coinImage.setImage(this.createImage("coin.png")); // set coin Image to empty plate
+            this.coinImage.setImage(ResourceProvider.createImage(ImageFiles.COIN)); // set coin Image to empty plate
             this.coinImage.setOnMouseClicked(event1 -> { // set click event to this
                 try {
                     noMoneySpent(this);
@@ -378,9 +371,7 @@ public class Customer {
                 }
             });
         } else {
-            File f = new File("");
-            String musicFile = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + "rightChoice.mp3";
-            AudioClip rightOrder = new AudioClip(new File(musicFile).toURI().toString());
+            AudioClip rightOrder = ResourceProvider.createAudioFile(MusicFiles.RIGHT_CHOICE);
             //MediaPlayer collectMoney = new MediaPlayer(sound);
             rightOrder.play();
         }

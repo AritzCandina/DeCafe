@@ -7,4 +7,6 @@ module com.example.decafe {
 
     opens com.example.decafe to javafx.fxml;
     exports com.example.decafe;
+    exports com.example.decafe.game.upgrade;
+    opens com.example.decafe.game.upgrade to javafx.fxml;
 }

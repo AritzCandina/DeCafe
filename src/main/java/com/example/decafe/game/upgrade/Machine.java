@@ -1,4 +1,10 @@
-package com.example.decafe;
+package com.example.decafe.game.upgrade;
+
+import java.io.FileNotFoundException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.example.decafe.resources.ResourceProvider;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -10,15 +16,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Timer;
-import java.util.TimerTask;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 // Class used to control all the methods needed to operate a Machine
 public class Machine {
@@ -49,15 +46,6 @@ public class Machine {
     public void setDuration(int duration) { this.duration = duration; }
 
     public void setProduced(Boolean produced){ this.produced = produced; }
-
-    // Method used to create an Image Object
-    public Image createImage(String filename) throws FileNotFoundException {
-        File f = new File(""); // Get filepath of project
-        // Get path to certain Image
-        String filePath = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + filename;
-        InputStream stream = new FileInputStream(filePath); // Convert path into stream
-        return new Image(stream); // Convert stream to Image and return it
-    }
 
     // Method used to animate the progressbar above the Machine
     public void doProgressBarAnimation(Timer productionTimer, ImageView machineImageView, ProgressBar machineProgressBar, Image imageProductProduced){
@@ -179,16 +167,16 @@ public class Machine {
             }
         }
         // Set the waiter Image to whatever images was chosen above
-        waiterImageView.setImage(createImage(imageCofi));
+        waiterImageView.setImage(ResourceProvider.createImage((imageCofi)));
 
         if (gotProduced) { // If something was produced
             // Animate the progress bar and wait till the product gets produced
-            doProgressBarAnimation(productionTimer, machineImageView, machineProgressBar, createImage(imageMachine));
+            doProgressBarAnimation(productionTimer, machineImageView, machineProgressBar, ResourceProvider.createImage((imageMachine)));
         } else { // If nothing was produced
             // Make the progress bar visible if something was produced and if not so set it invisible
             machineProgressBar.setVisible(this.getProduced());
             // Set the machine Image to whatever images was chosen above
-            machineImageView.setImage(createImage(imageMachine));
+            machineImageView.setImage(ResourceProvider.createImage(imageMachine));
         }
     }
 

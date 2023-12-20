@@ -1,12 +1,11 @@
-package com.example.decafe;
+package com.example.decafe.game.upgrade;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+
+import com.example.decafe.resources.ResourceProvider;
+import com.example.decafe.resources.files.ImageFiles;
+
+import javafx.scene.image.ImageView;
 
 //Class that is used mainly to control certain assets of the Game like Machines, Upgrades and the Coin Score
 public class Game {
@@ -26,20 +25,20 @@ public class Game {
 
     private final int movement6 = 6;
 
-    private final int coinsNeeded20 =20;
-    private final int coinsNeeded40 =40;
+    private final int coinsNeeded20 = 20;
+    private final int coinsNeeded40 = 40;
 
     // Constructor
-    Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
-        this.coffeeMachine = new Machine(duration5, "coffeeMachineWithCoffee.png", "coffeeMachine.png", "coffee");
-        this.cakeMachine = new Machine(duration5, "kitchenAidUsed.png", "kitchenAid.png", "cake");
-        this.coffeeUpgrade = new Upgrade(coinsNeeded20, false, "coffeeUpgrade.png", "coffeeUsed.png",  upgradeCoffee);
-        this.cakeUpgrade = new Upgrade(coinsNeeded20, false, "cakeUpgrade.png", "cakeUsed.png", upgradeCake);
-        this.playerUpgrade = new Upgrade(coinsNeeded40, false, "upgradeSkates.png", "upgradeSkatesUsed.png",  upgradePlayer);
+    public Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
+        this.coffeeMachine = new Machine(duration5, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, "coffee");
+        this.cakeMachine = new Machine(duration5, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, "cake");
+        this.coffeeUpgrade = new Upgrade(coinsNeeded20, false, ImageFiles.COFFEE_UPGRADE, ImageFiles.COFFEE_USED, upgradeCoffee);
+        this.cakeUpgrade = new Upgrade(coinsNeeded20, false, ImageFiles.CAKE_UPGRADE, ImageFiles.CAKE_USED, upgradeCake);
+        this.playerUpgrade = new Upgrade(coinsNeeded40, false, ImageFiles.UPGRADE_SKATES, ImageFiles.UPGRADE_SKATES_USED,  upgradePlayer);
         this.coinsEarned = 0;
-        this.filenameImageDollar = "5coins.png";
-        this.filenameImageFourCoins = "4coins.png";
-        this.filenameImageThreeCoins = "3coins.png";
+        this.filenameImageDollar = ImageFiles.FIVE_COINS;
+        this.filenameImageFourCoins = ImageFiles.FOUR_COINS;
+        this.filenameImageThreeCoins = ImageFiles.THREE_COINS;
     }
 
     // Getter
@@ -77,14 +76,6 @@ public class Game {
 
     public int getCoinsEarned() { return coinsEarned; }
 
-    // Method used to create an Image Object
-    public Image createImage(String filename) throws FileNotFoundException {
-        File f = new File(""); // Get filepath of project
-        // Get path to certain Image
-        String filePath = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + filename;
-        InputStream stream = new FileInputStream(filePath); // Convert path into stream
-        return new Image(stream); // Convert stream to Image and return it
-    }
 
     // Method to check if the Player can use a certain Upgrade
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
@@ -92,12 +83,12 @@ public class Game {
             // Enable the ImageView
             upgrade.getUpgradeImageView().setDisable(false);
             // Set the Image to the "activated" Upgrade Image
-            upgrade.getUpgradeImageView().setImage(createImage(upgrade.getFilenameUpgradeNotUsed()));
+            upgrade.getUpgradeImageView().setImage(ResourceProvider.createImage(upgrade.getFilenameUpgradeNotUsed()));
         } else { // If the upgrade was used already or the Player hasn't enough coins to buy it
             // Disable the Image
             upgrade.getUpgradeImageView().setDisable(true);
             // Set the Image to "deactivated" Upgrade Image
-            upgrade.getUpgradeImageView().setImage(createImage(upgrade.getFilenameUpgradeUsed()));
+            upgrade.getUpgradeImageView().setImage(ResourceProvider.createImage(upgrade.getFilenameUpgradeUsed()));
         }
     }
 
@@ -106,19 +97,19 @@ public class Game {
         switch (type) { // Switch the type of upgrade you received
             case "coffee" -> { // If the player chose the coffee upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
-                coinsEarned = coffeeUpgrade.doUpgrades(coinsEarned);
+                coinsEarned = coffeeUpgrade.doUpgrade(coinsEarned);
                 // Increase the speed of the Coffee Machine
                 coffeeMachine.setDuration(duration2);
             }
             case "cake" -> { // If the player chose the cake upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
-                coinsEarned = cakeUpgrade.doUpgrades(coinsEarned);
+                coinsEarned = cakeUpgrade.doUpgrade(coinsEarned);
                 // Increase the speed of the Cake Machine
                 cakeMachine.setDuration(duration2);
             }
             case "player" -> { // If the player chose the player upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
-                coinsEarned = playerUpgrade.doUpgrades(coinsEarned);
+                coinsEarned = playerUpgrade.doUpgrade(coinsEarned);
                 // Increase the movement speed of the Player
                 CofiBrew.setMovement(movement6);
             }
