@@ -221,7 +221,7 @@ public class AppController implements Initializable {
             MovementVector movementVector = determineNewMovementVector(movementFactor);
             updatePlayerPosition(movementVector);
 
-            if(!checkForCollision(waiterImageView)){
+            if (!checkForCollision(waiterImageView)) {
                 updatePlayerImage(player.getPlayerMovementDirection());
             }
         }
@@ -239,7 +239,7 @@ public class AppController implements Initializable {
         }
     }
 
-    private MovementVector determineNewMovementVector(double movementFactor){
+    private MovementVector determineNewMovementVector(double movementFactor) {
         MovementVector movementVector = new MovementVector();
         if (wPressed.get()) {
             movementVector.setY(-movementFactor);
@@ -264,7 +264,7 @@ public class AppController implements Initializable {
         int playerMovementSpeed = player.getMovementSpeed();
 
         double movementFactor = playerMovementSpeed;
-        if (isDiagonalMovementTriggered()){
+        if (isDiagonalMovementTriggered()) {
             movementFactor -= playerMovementSpeed - Math.sqrt(Math.pow(playerMovementSpeed, 2) / 2);
         }
         return movementFactor;
@@ -272,16 +272,16 @@ public class AppController implements Initializable {
 
     private boolean isDiagonalMovementTriggered() {
         return wPressed.get() && aPressed.get() || wPressed.get() && dPressed.get() ||
-              sPressed.get() && aPressed.get() || sPressed.get() && dPressed.get();
+                sPressed.get() && aPressed.get() || sPressed.get() && dPressed.get();
     }
 
     private void updatePlayerImage(PlayerMovementDirection playerMovementDirection) {
         try {
             if (player.getProductInHand().equals("none")) {
                 waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewImage()));
-            } else if (player.getProductInHand().equals("cake")){
+            } else if (player.getProductInHand().equals("cake")) {
                 waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewCakeImage()));
-            } else if (player.getProductInHand().equals("coffee")){
+            } else if (player.getProductInHand().equals("coffee")) {
                 waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewCoffeeImage()));
             }
         } catch (FileNotFoundException e) {
@@ -350,6 +350,7 @@ public class AppController implements Initializable {
     public void changeStartCoffeeImageBack() throws FileNotFoundException {
         startButton.setImage(ResourceProvider.createImage(ImageFiles.START_COFFEE));
     }
+
     // start screen - change Quit Button on mouse entered
     public void changeQuitStartScreen() throws FileNotFoundException {
         startQuitButton.setImage(ResourceProvider.createImage(ImageFiles.QUITE_END_SCREEN_BRIGHTER));
@@ -440,52 +441,72 @@ public class AppController implements Initializable {
     }
 
     // Method used to display a customer, check if and order was right and set Images for coin ImagesViews
-    public void displayPerson(MouseEvent event) throws IOException {
-        ImageView customerImageView = (ImageView) event.getSource(); //get the Customer of the clicked Image
-        Customer customer = findCustomer(Customer.customersInCoffeeShop, customerImageView); //make new customer object
+    public void handlePersonClick(MouseEvent event) throws FileNotFoundException {
+        ImageView customerImageView = (ImageView) event.getSource();
+        Customer customer = findCustomer(Customer.customersInCoffeeShop, customerImageView);
 
-        if (!customer.isAlreadyOrdered()) { //if customer has not ordered yet, display an order
+        if (!customer.isAlreadyOrdered()) {
             customer.displayOrder(customer.getLabel());
+        }
+
+        if (!isWaiterNearCustomer(customerImageView)) {
             return;
         }
 
-        if (!customerImageView.getBoundsInParent().intersects(waiterImageView.getBoundsInParent())) { // If customer has already ordered and waiter is near the customer
+        spawnNewCustomerIfPossible(customer);
+
+        if (!customer.checkOrder(player, customer, waiterImageView)) {
             return;
         }
 
+        setCoinImage(customer);
+        setupCoinClickEvent(customer);
+    }
+
+    private boolean isWaiterNearCustomer(ImageView customerImageView) {
+        return customerImageView.getBoundsInParent().intersects(waiterImageView.getBoundsInParent());
+    }
+
+    private void spawnNewCustomerIfPossible(Customer customer) {
         try {
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer()); // spawn a new customer if a chair is free
+            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer());
         } catch (NullPointerException e) {
-                    switchToEndScreen();
+            safelySwitchToEndScreen();
         }
+    }
 
-        if (!customer.checkOrder(player, customer, waiterImageView)) { // check if order the waiter has in his hands is the one the customer ordered
-            return;
+    private void setCoinImage(Customer customer) throws FileNotFoundException {
+        String moneyImage = determineMoneyImage(customer);
+        customer.getCoinImage().setImage(ResourceProvider.createImage(moneyImage));
+    }
+
+    private String determineMoneyImage(Customer customer) {
+        if (customer.isGreen()) {
+            return ImageFiles.FIVE_COINS;
+        } else if (customer.isYellow()) {
+            return ImageFiles.FOUR_COINS;
+        } else if (customer.isRed()) {
+            return ImageFiles.THREE_COINS;
         }
+        return "";
+    }
 
-        String moneyImage = ""; // if so set the relating coin ImageView
-
-        if (customer.isGreen()) { // if customer left happy
-            moneyImage = ImageFiles.FIVE_COINS;
-        } else if (customer.isYellow()) { // if customer left normal
-            moneyImage = ImageFiles.FOUR_COINS;
-        } else if (customer.isRed()) { // if customer left sad
-            moneyImage = ImageFiles.THREE_COINS;
-        }
-
-        customer.getCoinImage().setImage(ResourceProvider.createImage(moneyImage)); //set coin image
-        customer.getCoinImage().setOnMouseClicked(event1 -> { // set click event for coin image
+    private void setupCoinClickEvent(Customer customer) {
+        customer.getCoinImage().setOnMouseClicked(event -> {
             try {
-                getMoney(event1, customer); // if coin Image is clicked jump to this method
+                getMoney(event, customer);
             } catch (IOException e) {
-                try {
-                    switchToEndScreen();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                safelySwitchToEndScreen();
             }
         });
+    }
 
+    private void safelySwitchToEndScreen() {
+        try {
+            switchToEndScreen();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     // Method to check if an Upgrade can be made (check if player has earned enough coins and if it was already used or not)

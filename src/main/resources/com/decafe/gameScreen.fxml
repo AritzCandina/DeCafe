@@ -43,25 +43,25 @@
       <ImageView fitHeight="94.0" fitWidth="77.0" layoutX="611.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@chairRight.png" />
       </ImageView>
-      <ImageView fx:id="first" fitHeight="73.0" fitWidth="100.0" layoutX="500.0" layoutY="120.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="first" fitHeight="73.0" fitWidth="100.0" layoutX="500.0" layoutY="120.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerAbove.png" />
       </ImageView>
-      <ImageView fx:id="second" fitHeight="73.0" fitWidth="100.0" layoutX="761.0" layoutY="120.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="second" fitHeight="73.0" fitWidth="100.0" layoutX="761.0" layoutY="120.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerAbove.png" />
       </ImageView>
-      <ImageView fx:id="third" fitHeight="73.0" fitWidth="100.0" layoutX="500.0" layoutY="314.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="third" fitHeight="73.0" fitWidth="100.0" layoutX="500.0" layoutY="314.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerBottom.png" />
       </ImageView>
-      <ImageView fx:id="fourth" fitHeight="73.0" fitWidth="100.0" layoutX="761.0" layoutY="314.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="fourth" fitHeight="73.0" fitWidth="100.0" layoutX="761.0" layoutY="314.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerBottom.png" />
       </ImageView>
-      <ImageView fx:id="sixth" fitHeight="73.0" fitWidth="100.0" layoutX="500.0" layoutY="620.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="sixth" fitHeight="73.0" fitWidth="100.0" layoutX="500.0" layoutY="620.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerBottom.png" />
       </ImageView>
-      <ImageView fx:id="seventh" fitHeight="100.0" fitWidth="73.0" layoutX="861.0" layoutY="501.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="seventh" fitHeight="100.0" fitWidth="73.0" layoutX="861.0" layoutY="501.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerRight.png" />
       </ImageView>
-      <ImageView fx:id="fifth" fitHeight="100.0" fitWidth="63.0" layoutX="604.0" layoutY="501.0" onMouseClicked="#displayPerson" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="fifth" fitHeight="100.0" fitWidth="63.0" layoutX="604.0" layoutY="501.0" onMouseClicked="#handlePersonClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <Image url="@customerRight.png" />
       </ImageView>
       <Button layoutX="1000.0" layoutY="1000.0" mnemonicParsing="false" text="" />
