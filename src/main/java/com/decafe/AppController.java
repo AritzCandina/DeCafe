@@ -216,7 +216,7 @@ public class AppController implements Initializable {
             updatePlayerPosition(movementVector);
 
             if (!checkForCollision(waiterImageView)) {
-                updatePlayerImage(player.getPlayerMovementDirection());
+                updatePlayerImage(player.getMovementDirection());
             }
         }
     };
@@ -254,16 +254,16 @@ public class AppController implements Initializable {
 
     private void determinePlayerMovementDirection(MovementVector movementVector){
         if(movementVector.getX()<0){
-            player.setPlayerMovementDirection(PlayerMovementDirections.LEFT);
+            player.setMovementDirection(MovementDirection.LEFT);
         }
         if(movementVector.getX()>0){
-            player.setPlayerMovementDirection(PlayerMovementDirections.RIGHT);
+            player.setMovementDirection(MovementDirection.RIGHT);
         }
         if(movementVector.getY()<0){
-            player.setPlayerMovementDirection(PlayerMovementDirections.UP);
+            player.setMovementDirection(MovementDirection.UP);
         }
         if(movementVector.getY()>0){
-            player.setPlayerMovementDirection(PlayerMovementDirections.DOWN);
+            player.setMovementDirection(MovementDirection.DOWN);
         }
     }
 
@@ -282,14 +282,14 @@ public class AppController implements Initializable {
                 sPressed.get() && aPressed.get() || sPressed.get() && dPressed.get();
     }
 
-    private void updatePlayerImage(PlayerMovementDirections playerMovementDirection) {
+    private void updatePlayerImage(MovementDirection movementDirection) {
         try {
             if (player.getProductInHand().equals(ProductType.NONE)) {
-                waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewImage()));
+                waiterImageView.setImage(ResourceProvider.createImage(movementDirection.getCofiBrewImage()));
             } else if (player.getProductInHand().equals(ProductType.CAKE)) {
-                waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewCakeImage()));
+                waiterImageView.setImage(ResourceProvider.createImage(movementDirection.getCofiBrewCakeImage()));
             } else if (player.getProductInHand().equals(ProductType.COFFEE)) {
-                waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewCoffeeImage()));
+                waiterImageView.setImage(ResourceProvider.createImage(movementDirection.getCofiBrewCoffeeImage()));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

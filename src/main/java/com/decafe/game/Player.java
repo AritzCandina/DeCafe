@@ -10,7 +10,7 @@ public class Player {
     private ProductType productInHand; // The type of product the waiter holds in his hands (Coffee or Cake)
     private int movementSpeed;
 
-    private PlayerMovementDirections playerMovementDirection;
+    private MovementDirection movementDirection;
 
     // Constructor
     public Player() {
@@ -19,7 +19,7 @@ public class Player {
         this.filenameImageWithCoffee = ImageFiles.COFI_BREW_COFFEE_UP;
         this.productInHand = ProductType.NONE;
         this.movementSpeed = DEFAULT_MOVEMENT_SPEED;
-        this.playerMovementDirection = PlayerMovementDirections.NONE;
+        this.movementDirection = MovementDirection.NONE;
     }
 
     //Getter
@@ -52,12 +52,12 @@ public class Player {
         this.movementSpeed = movement;
     }
 
-    public PlayerMovementDirections getPlayerMovementDirection() {
-        return playerMovementDirection;
+    public MovementDirection getMovementDirection() {
+        return movementDirection;
     }
 
-    public void setPlayerMovementDirection(PlayerMovementDirections playerMovementDirection) {
-        this.playerMovementDirection = playerMovementDirection;
+    public void setMovementDirection(MovementDirection movementDirection) {
+        this.movementDirection = movementDirection;
     }
 }
 
