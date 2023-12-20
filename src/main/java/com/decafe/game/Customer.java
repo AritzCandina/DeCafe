@@ -1,4 +1,4 @@
-package com.example.decafe.game.upgrade;
+package com.decafe.game;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -7,9 +7,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.decafe.resources.ResourceProvider;
-import com.example.decafe.resources.files.ImageFiles;
-import com.example.decafe.resources.files.MusicFiles;
+import com.decafe.resources.ResourceProvider;
+import com.decafe.resources.files.ImageFiles;
+import com.decafe.resources.files.MusicFiles;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;

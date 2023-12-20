@@ -1,4 +1,4 @@
-package com.example.decafe;
+package com.decafe;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
-import com.example.decafe.game.upgrade.Customer;
-import com.example.decafe.game.upgrade.Game;
-import com.example.decafe.game.upgrade.MovementVector;
-import com.example.decafe.game.upgrade.Player;
-import com.example.decafe.game.upgrade.PlayerMovementDirection;
-import com.example.decafe.game.upgrade.Upgrade;
-import com.example.decafe.resources.ResourceProvider;
-import com.example.decafe.resources.files.ImageFiles;
-import com.example.decafe.resources.files.MusicFiles;
+import com.decafe.game.Customer;
+import com.decafe.game.Game;
+import com.decafe.game.MovementVector;
+import com.decafe.game.Player;
+import com.decafe.game.PlayerMovementDirection;
+import com.decafe.game.Upgrade;
+import com.decafe.resources.ResourceProvider;
+import com.decafe.resources.files.ImageFiles;
+import com.decafe.resources.files.MusicFiles;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;

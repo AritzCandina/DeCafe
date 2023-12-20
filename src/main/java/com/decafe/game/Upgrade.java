@@ -1,8 +1,8 @@
-package com.example.decafe.game.upgrade;
+package com.decafe.game;
 
 import java.io.FileNotFoundException;
 
-import com.example.decafe.resources.ResourceProvider;
+import com.decafe.resources.ResourceProvider;
 
 import javafx.scene.image.ImageView;
 

@@ -1,4 +1,4 @@
-package com.example.decafe.resources.files;
+package com.decafe.resources.files;
 
 public abstract class MusicFiles {
     public static final String TEST_SOUND = "test_sound.wav";

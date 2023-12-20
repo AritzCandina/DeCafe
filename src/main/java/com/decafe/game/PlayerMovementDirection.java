@@ -1,6 +1,6 @@
-package com.example.decafe.game.upgrade;
+package com.decafe.game;
 
-import com.example.decafe.resources.files.ImageFiles;
+import com.decafe.resources.files.ImageFiles;
 
 public enum PlayerMovementDirection {
     LEFT(ImageFiles.COFI_BREW_LEFT, ImageFiles.COFI_BREW_CAKE_LEFT, ImageFiles.COFI_BREW_COFFEE_LEFT),

@@ -1,11 +1,9 @@
-package com.example.decafe.resources;
+package com.decafe.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import com.example.decafe.game.upgrade.PlayerMovementDirection;
 
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
@@ -23,17 +21,7 @@ public class ResourceProvider {
     }
 
     private static String getResourceFilePath(){
-        return new File("").getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator;
-    }
-
-    private String getImageFileName(PlayerMovementDirection direction, String productInHand) {
-        String baseName = "COFI_BREW_" + direction.toString();
-
-        if (!"none".equals(productInHand)) {
-            baseName += "_" + productInHand.toUpperCase();
-        }
-
-        return baseName + ".png"; // Assuming all image files have ".png" extension
+        return new File("").getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "decafe" + File.separator;
     }
 
 }

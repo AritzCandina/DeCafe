@@ -1,10 +1,10 @@
-package com.example.decafe.game.upgrade;
+package com.decafe.game;
 
 import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.decafe.resources.ResourceProvider;
+import com.decafe.resources.ResourceProvider;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

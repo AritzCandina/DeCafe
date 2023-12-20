@@ -1,4 +1,4 @@
-package com.example.decafe.game.upgrade;
+package com.decafe.game;
 
 public class MovementVector {
     double x;
