@@ -1,6 +1,7 @@
 package com.decafe.resources.files;
 
 public abstract class MusicFiles {
+
     public static final String TEST_SOUND = "test_sound.wav";
     public static final String UPGRADE_SOUND = "upgradeSound.wav";
     public static final String COINS_SOUND = "coinsSound.wav";

@@ -291,26 +291,55 @@ public class AppController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        keyPressed.addListener((observableValue, aBoolean, t1) -> { // if any key from the four keys is pressed
+        setupKeyPressedListener();
+        initializeCollisions();
+        initializeCustomerComponents();
+        initializeGame();
+    }
+
+    private void setupKeyPressedListener() {
+        keyPressed.addListener((observableValue, aBoolean, t1) -> {
             if (!aBoolean) {
                 animationTimer.start();
             } else {
                 animationTimer.stop();
             }
         });
-
-        // transparent labels on top of the images to look for collisions
-        collisions = new Label[]{plant, plantsAbove, customerBot1, customerBot2, customerBot3, customerTop1, customerTop2, customerTop3, customerTop4, table1, table2, table3, table4, edgeBot, edgeLeft, edgeRight, edgeTop, countRight, countBelow};
-
-        // initialise ImagesViews and Labels so Customer Class can operate with them
-        Customer.customerImages = new ImageView[]{first, second, third, fourth, fifth, sixth, seventh}; //make customer ImageView[]
-        Customer.smileyImages = new ImageView[]{smileyFirst, smileySecond, smileyThird, smileyFourth, smileyFifth, smileySixth, smileySeventh}; //make smiley ImageView[]
-        Customer.orderLabels = new ImageView[]{orderlabel1, orderlabel2, orderlabel3, orderlabel4, orderlabel5, orderlabel6, orderlabel7}; //make label label[]
-        Customer.coinImages = new ImageView[]{coinFirst, coinSecond, coinThird, coinFourth, coinFifth, coinSixth, coinSeventh}; //make coin ImageView[]
-        Customer.freeChairs = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6)); //make freeChairs Array
-        Customer.setControllerTimer(controllerTimer); //set the static timer t
-        game = new Game(upgradeCoffeeImageView, upgradeCakeImageView, upgradePlayerImageView); // initialise Game Object with upgrade ImageViews
     }
+
+    private void initializeCollisions() {
+        collisions = new Label[]{
+                plant, plantsAbove, customerBot1, customerBot2, customerBot3,
+                customerTop1, customerTop2, customerTop3, customerTop4,
+                table1, table2, table3, table4, edgeBot, edgeLeft,
+                edgeRight, edgeTop, countRight, countBelow
+        };
+    }
+
+    private void initializeCustomerComponents() {
+        Customer.customerImages = new ImageView[]{
+                first, second, third, fourth, fifth, sixth, seventh
+        };
+        Customer.smileyImages = new ImageView[]{
+                smileyFirst, smileySecond, smileyThird, smileyFourth,
+                smileyFifth, smileySixth, smileySeventh
+        };
+        Customer.orderLabels = new ImageView[]{
+                orderlabel1, orderlabel2, orderlabel3, orderlabel4,
+                orderlabel5, orderlabel6, orderlabel7
+        };
+        Customer.coinImages = new ImageView[]{
+                coinFirst, coinSecond, coinThird, coinFourth,
+                coinFifth, coinSixth, coinSeventh
+        };
+        Customer.freeChairs = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
+        Customer.setControllerTimer(controllerTimer);
+    }
+
+    private void initializeGame() {
+        game = new Game(upgradeCoffeeImageView, upgradeCakeImageView, upgradePlayerImageView);
+    }
+
 
     // start screen - change start button on mouse entered
     public void changeStartCoffeeImage() throws FileNotFoundException {
