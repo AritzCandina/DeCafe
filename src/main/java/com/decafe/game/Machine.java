@@ -23,14 +23,14 @@ public class Machine {
     private Boolean produced; // Boolean that says if a product was already produced of if it needs to be produced
     private final String filenameImageMachineWithoutProduct; // Image of the Machine in the default state
     private final String filenameImageMachineWithProduct; // Image of the Machine with a product already produced
-    private final String productType; // The type of the Machine (cake or coffee)
+    private final ProductType productType; // The type of the Machine (cake or coffee)
 
     private final int milliSec300 = 300;
 
     private final long multiplicator1000 = 1000;
 
     // Constructor
-    public Machine(int duration, String filenameImageMachineWithProduct, String filenameImageMachineWithoutProduct, String productType){
+    public Machine(int duration, String filenameImageMachineWithProduct, String filenameImageMachineWithoutProduct, ProductType productType){
         this.duration = duration;
         this.produced = false;
         this.filenameImageMachineWithProduct = filenameImageMachineWithProduct;
@@ -124,31 +124,31 @@ public class Machine {
         // Set boolean got produced to false - used to check if a product was produced when clicked on Machine
         boolean gotProduced = false;
 
-        if (!this.produced && cofiBrew.getProductInHand().equals("none")) { // If Machine hasn't produced something and the waiter has nothing in his hands
+        if (!this.produced && cofiBrew.getProductInHand().equals(ProductType.NONE)) { // If Machine hasn't produced something and the waiter has nothing in his hands
             // Set both booleans to produced
             this.setProduced(true);
             gotProduced = true;
-        } else if (!this.produced && cofiBrew.getProductInHand().equals("coffee")) { // If machine hasn't produced anything and the waiter has coffee in his hands
+        } else if (!this.produced && cofiBrew.getProductInHand().equals(ProductType.COFFEE)) { // If machine hasn't produced anything and the waiter has coffee in his hands
             // Set both booleans to produced
             this.setProduced(true);
             gotProduced = true;
             // Change Image to waiter with Coffee (since it's not the same as the default)
             imageCofi = cofiBrew.getFilenameImageWithCoffee();
-        } else if (!this.produced && cofiBrew.getProductInHand().equals("cake")) { // If machine hasn't produced anything and the waiter has cake in his hands
+        } else if (!this.produced && cofiBrew.getProductInHand().equals(ProductType.CAKE)) { // If machine hasn't produced anything and the waiter has cake in his hands
             // Set both booleans to produced
             this.setProduced(true);
             gotProduced = true;
             // Change Image to waiter with Cake (since it's not the same as the default)
             imageCofi = cofiBrew.getFilenameImageWithCake();
         } else { // If something was already produced
-            if (cofiBrew.getProductInHand().equals("none")){ // And the waiter hasn't anything in his hands
+            if (cofiBrew.getProductInHand().equals(ProductType.NONE)){ // And the waiter hasn't anything in his hands
                 // Set produced boolean to false since nothing was produces
                 this.setProduced(false);
                 // Change Image to Machine without product (since product was taken)
                 imageMachine = this.filenameImageMachineWithoutProduct;
                 // Set the product the player obtain to whatever type the machine is
                 cofiBrew.setProductInHand(this.productType);
-                if (this.productType.equals("coffee")){ // If the type of the machine is coffee
+                if (this.productType.equals(ProductType.COFFEE)){ // If the type of the machine is coffee
                     // Change the images of the waiter, so he holds coffee
                     imageCofi = cofiBrew.getFilenameImageWithCoffee();
                 } else { // If the type of the machine is cake
@@ -157,7 +157,7 @@ public class Machine {
                 }
             } else { // If coffee Brew has something in his hands (so he can't pick up the product produced)
                     // Keep the picture the same
-                    if (cofiBrew.getProductInHand().equals("coffee")){ // So if he holds coffee at the moment
+                    if (cofiBrew.getProductInHand().equals(ProductType.COFFEE)){ // So if he holds coffee at the moment
                         // Set Image to waiter with coffee
                         imageCofi = cofiBrew.getFilenameImageWithCoffee();
                     } else { // If he holds cake at the moment

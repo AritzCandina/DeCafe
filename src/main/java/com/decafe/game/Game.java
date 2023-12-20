@@ -27,8 +27,8 @@ public class Game {
 
     // Constructor
     public Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
-        this.coffeeMachine = new Machine(duration5, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, "coffee");
-        this.cakeMachine = new Machine(duration5, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, "cake");
+        this.coffeeMachine = new Machine(duration5, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, ProductType.COFFEE);
+        this.cakeMachine = new Machine(duration5, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, ProductType.CAKE);
         this.coffeeUpgrade = new Upgrade(coinsNeeded20, false, ImageFiles.COFFEE_UPGRADE, ImageFiles.COFFEE_USED, upgradeCoffee);
         this.cakeUpgrade = new Upgrade(coinsNeeded20, false, ImageFiles.CAKE_UPGRADE, ImageFiles.CAKE_USED, upgradeCake);
         this.playerUpgrade = new Upgrade(coinsNeeded40, false, ImageFiles.UPGRADE_SKATES, ImageFiles.UPGRADE_SKATES_USED,  upgradePlayer);

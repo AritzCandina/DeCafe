@@ -5,12 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import com.decafe.game.Customer;
-import com.decafe.game.Game;
-import com.decafe.game.MovementVector;
-import com.decafe.game.Player;
-import com.decafe.game.PlayerMovementDirection;
-import com.decafe.game.Upgrade;
+import com.decafe.game.*;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;
@@ -259,16 +254,16 @@ public class AppController implements Initializable {
 
     private void determinePlayerMovementDirection(MovementVector movementVector){
         if(movementVector.getX()<0){
-            player.setPlayerMovementDirection(PlayerMovementDirection.LEFT);
+            player.setPlayerMovementDirection(PlayerMovementDirections.LEFT);
         }
         if(movementVector.getX()>0){
-            player.setPlayerMovementDirection(PlayerMovementDirection.RIGHT);
+            player.setPlayerMovementDirection(PlayerMovementDirections.RIGHT);
         }
         if(movementVector.getY()<0){
-            player.setPlayerMovementDirection(PlayerMovementDirection.UP);
+            player.setPlayerMovementDirection(PlayerMovementDirections.UP);
         }
         if(movementVector.getY()>0){
-            player.setPlayerMovementDirection(PlayerMovementDirection.DOWN);
+            player.setPlayerMovementDirection(PlayerMovementDirections.DOWN);
         }
     }
 
@@ -287,13 +282,13 @@ public class AppController implements Initializable {
                 sPressed.get() && aPressed.get() || sPressed.get() && dPressed.get();
     }
 
-    private void updatePlayerImage(PlayerMovementDirection playerMovementDirection) {
+    private void updatePlayerImage(PlayerMovementDirections playerMovementDirection) {
         try {
-            if (player.getProductInHand().equals("none")) {
+            if (player.getProductInHand().equals(ProductType.NONE)) {
                 waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewImage()));
-            } else if (player.getProductInHand().equals("cake")) {
+            } else if (player.getProductInHand().equals(ProductType.CAKE)) {
                 waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewCakeImage()));
-            } else if (player.getProductInHand().equals("coffee")) {
+            } else if (player.getProductInHand().equals(ProductType.COFFEE)) {
                 waiterImageView.setImage(ResourceProvider.createImage(playerMovementDirection.getCofiBrewCoffeeImage()));
             }
         } catch (FileNotFoundException e) {
@@ -431,10 +426,10 @@ public class AppController implements Initializable {
 
     // if no product is held by waiter
     public void noProduct() throws FileNotFoundException {
-        if (player.getProductInHand().equals("coffee") || player.getProductInHand().equals("cake")) {
+        if (player.getProductInHand().equals(ProductType.COFFEE) || player.getProductInHand().equals(ProductType.CAKE)) {
             SoundPlayer.playSound(MusicFiles.TRASH_SOUND);
             waiterImageView.setImage(ResourceProvider.createImage(player.getFilenameImageWithoutProduct()));
-            player.setProductInHand("none");
+            player.setProductInHand(ProductType.NONE);
         }
     }
 
@@ -607,7 +602,7 @@ public class AppController implements Initializable {
         Customer.allCustomers.clear(); // clear all Lists created by spawning/despawning customer
         Customer.customersInCoffeeShop.clear();
         Customer.freeChairs.clear();
-        player.setProductInHand("none"); // clear Cofis hand
+        player.setProductInHand(ProductType.NONE); // clear Cofis hand
         controllerTimer.cancel(); // cancel spawn/leaving timer
         Customer.getControllerTimer().cancel();
     }

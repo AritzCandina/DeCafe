@@ -7,23 +7,23 @@ public class Player {
     private final String filenameImageWithoutProduct;
     private final String filenameImageWithCoffee;
     private final String filenameImageWithCake;
-    private String productInHand; // The type of product the waiter holds in his hands (Coffee or Cake)
+    private ProductType productInHand; // The type of product the waiter holds in his hands (Coffee or Cake)
     private int movementSpeed;
 
-    private PlayerMovementDirection playerMovementDirection;
+    private PlayerMovementDirections playerMovementDirection;
 
     // Constructor
     public Player() {
         this.filenameImageWithoutProduct = ImageFiles.COFI_BREW_UP;
         this.filenameImageWithCake =  ImageFiles.COFI_BREW_CAKE_UP;
         this.filenameImageWithCoffee = ImageFiles.COFI_BREW_COFFEE_UP;
-        this.productInHand = "none";
+        this.productInHand = ProductType.NONE;
         this.movementSpeed = DEFAULT_MOVEMENT_SPEED;
-        this.playerMovementDirection = PlayerMovementDirection.NONE;
+        this.playerMovementDirection = PlayerMovementDirections.NONE;
     }
 
     //Getter
-    public String getProductInHand() {
+    public ProductType getProductInHand() {
         return productInHand;
     }
 
@@ -44,7 +44,7 @@ public class Player {
     }
 
     //Setter
-    public void setProductInHand(String productInHand) {
+    public void setProductInHand(ProductType productInHand) {
         this.productInHand = productInHand;
     }
 
@@ -52,11 +52,11 @@ public class Player {
         this.movementSpeed = movement;
     }
 
-    public PlayerMovementDirection getPlayerMovementDirection() {
+    public PlayerMovementDirections getPlayerMovementDirection() {
         return playerMovementDirection;
     }
 
-    public void setPlayerMovementDirection(PlayerMovementDirection playerMovementDirection) {
+    public void setPlayerMovementDirection(PlayerMovementDirections playerMovementDirection) {
         this.playerMovementDirection = playerMovementDirection;
     }
 }

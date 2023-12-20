@@ -13,10 +13,9 @@ import com.decafe.resources.files.ImageFiles;
 import com.decafe.resources.files.MusicFiles;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.media.AudioClip;
 
 public class Customer {
-    private String order; //The order of the customer
+    private ProductType order; //The order of the customer
     private ImageView customer; //picture of the customer
     private ImageView orderLabel; //label that displays order
     private int chair; //number of chair the customer is sitting
@@ -86,7 +85,7 @@ public class Customer {
         return this.alreadyOrdered;
     }
 
-    public String getOrder() { //returns the order of the customer
+    public ProductType getOrder() { //returns the order of the customer
         return order;
     }
 
@@ -102,14 +101,14 @@ public class Customer {
         return this.orderLabel;
     }
 
-    public String getRandomOrder() { //returns random order
+    public ProductType getRandomOrder() { //returns random order
 
         Random random = new Random();
         int number = random.nextInt(2);
 
         switch (number) {
-            case 0 -> order = "cake";
-            case 1 -> order = "coffee";
+            case 0 -> order = ProductType.CAKE;
+            case 1 -> order = ProductType.COFFEE;
         }
 
         return order;
@@ -120,7 +119,7 @@ public class Customer {
     }
 
     // Setter
-    public void setOrder(String order) { //sets the order of the customer
+    public void setOrder(ProductType order) { //sets the order of the customer
         this.order = order;
     }
 
@@ -196,7 +195,7 @@ public class Customer {
 
     //Methode to spawn customers
     public static void spawnCustomers(){
-        if (customersInCoffeeShop.size() < 3 && freeChairs.size() != 0) { //spawn a new customer this when under 3 customers are in the café
+        if (customersInCoffeeShop.size() < 3 && !freeChairs.isEmpty()) { //spawn a new customer this when under 3 customers are in the café
             ImageView customerImage = getRandomPic(); //get random picture from Array
             customerImage.setVisible(true); //make this picture visible
 
@@ -301,7 +300,7 @@ public class Customer {
     public void displayOrder(ImageView orderlabel) throws FileNotFoundException {
         this.order = getRandomOrder();
         setOrder(order);
-        if(order.equals("cake")) {
+        if(order.equals(ProductType.CAKE)) {
             if (chair == 0 || chair == 1 || chair == 4 || chair == 6) {
                 orderlabel.setVisible(true);
                 orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_CAKE_TOP_LEFT));
@@ -312,7 +311,7 @@ public class Customer {
                 orderlabel.setVisible(true);
                 orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_CAKE_BOTTOM_RIGHT));
             }
-        } else if(order.equals("coffee")){
+        } else if(order.equals(ProductType.COFFEE)){
             if (chair == 0 || chair == 1 || chair == 4 || chair == 6) {
                 orderlabel.setVisible(true);
                 orderlabel.setImage(ResourceProvider.createImage(ImageFiles.BUBBLE_COFFEE_TOP_LEFT));
@@ -332,12 +331,12 @@ public class Customer {
     public boolean checkOrder(Player CofiBrew, Customer customer, ImageView waiterImage) throws FileNotFoundException{
         waiterImage.setImage(ResourceProvider.createImage(CofiBrew.getFilenameImageWithoutProduct())); //set CofiBrew without order
         if (CofiBrew.getProductInHand().equals(customer.getOrder())) { //if CofiBrew has the right order
-            CofiBrew.setProductInHand("none"); // change product hold by player to none
+            CofiBrew.setProductInHand(ProductType.NONE); // change product hold by player to none
             this.leftUnhappy = false;
             startTimerLeave(this); // start timer to leave the coffee shop (true - it was the right order)
             return true;
         } else {
-            CofiBrew.setProductInHand("none"); // change product hold by player to none
+            CofiBrew.setProductInHand(ProductType.NONE); // change product hold by player to none
             startTimerLeave(this);  // start timer to leave the coffee shop (false - it was the wrong order)
             return false;
         }

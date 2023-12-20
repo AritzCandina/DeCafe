@@ -2,7 +2,7 @@ package com.decafe.game;
 
 import com.decafe.resources.files.ImageFiles;
 
-public enum PlayerMovementDirection {
+public enum PlayerMovementDirections {
     LEFT(ImageFiles.COFI_BREW_LEFT, ImageFiles.COFI_BREW_CAKE_LEFT, ImageFiles.COFI_BREW_COFFEE_LEFT),
     RIGHT(ImageFiles.COFI_BREW_RIGHT, ImageFiles.COFI_BREW_CAKE_RIGHT, ImageFiles.COFI_BREW_COFFEE_RIGHT),
     UP(ImageFiles.COFI_BREW_UP, ImageFiles.COFI_BREW_CAKE_UP, ImageFiles.COFI_BREW_COFFEE_UP),
@@ -13,13 +13,13 @@ public enum PlayerMovementDirection {
     private String cofiBrewCakeImage;
     private String cofiBrewCoffeeImage;
 
-    PlayerMovementDirection(String cofiBrewImage, String cofiBrewCakeImage, String cofiBrewCoffeeImage){
+    PlayerMovementDirections(String cofiBrewImage, String cofiBrewCakeImage, String cofiBrewCoffeeImage){
         this.cofiBrewImage = cofiBrewImage;
         this.cofiBrewCakeImage = cofiBrewCakeImage;
         this.cofiBrewCoffeeImage = cofiBrewCoffeeImage;
     }
 
-    PlayerMovementDirection(){
+    PlayerMovementDirections(){
     }
 
     public String getCofiBrewImage() {
