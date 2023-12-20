@@ -128,9 +128,6 @@ public class Customer {
         Customer.controllerTimer = controllerTimer;
     }
 
-    // Method used to create an Image Object
-
-
     //Returns the appropriate image for the customer
     public static ImageView getImage(ImageView customer, ImageView[] searchArray ){
         ImageView wantedImage = new ImageView();
