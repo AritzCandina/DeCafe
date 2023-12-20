@@ -541,29 +541,60 @@ public class AppController implements Initializable {
     }
 
     // Method used when coin Image is clicked on
-    public void getMoney(MouseEvent e, Customer customer) throws IOException {
-        AudioClip collectMoney = ResourceProvider.createAudioFile(MusicFiles.COINS_SOUND);
-        collectMoney.play();
-        Customer.addFreeSeat(customer.getChair()); // add the seat chosen from the customer to the freeSeatsArray again
-        game.setCoinsEarned(customer); // set the money earned according to what amount of money the customer left
-        ((ImageView) e.getSource()).setVisible(false); // disable the coin Image and make it invisible
-        ((ImageView) e.getSource()).setDisable(true);
+    public void getMoney(MouseEvent e, Customer customer) throws FileNotFoundException {
+        playCollectMoneySound();
+        Customer.addFreeSeat(customer.getChair());
+        updateGameCoinsEarned(customer);
+        hideCoinImage(e);
 
-        if (game.getCoinsEarned() < 80) { // check if enough coins were earned to end the game
-            checkUpgradePossible(game.getCoffeeUpgrade()); // if not, check if any upgrades would be possible
-            checkUpgradePossible(game.getCakeUpgrade());
-            checkUpgradePossible(game.getPlayerUpgrade());
-            coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned())); // refresh the coin score shown in GUI
-            try {
-                customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer()); // spawn a new customer
-            } catch (NullPointerException y) {
-                switchToEndScreen();
-            }
-        } else { // if enough coins were earned
-            stopTimers(); // stop all the timers
-            switchToEndScreen(); // switch to the end screen
+        if (isGameCompletionCriteriaMet()) {
+            completeGame();
+        } else {
+            updateGameUI();
+            spawnNewCustomer(customer);
         }
     }
+
+    private void playCollectMoneySound() {
+        AudioClip collectMoney = ResourceProvider.createAudioFile(MusicFiles.COINS_SOUND);
+        collectMoney.play();
+    }
+
+    private void updateGameCoinsEarned(Customer customer) {
+        game.setCoinsEarned(customer);
+    }
+
+    private void hideCoinImage(MouseEvent e) {
+        ImageView coinImage = (ImageView) e.getSource();
+        coinImage.setVisible(false);
+        coinImage.setDisable(true);
+    }
+
+    private boolean isGameCompletionCriteriaMet() {
+        return game.getCoinsEarned() >= 80;
+    }
+
+    private void updateGameUI() throws FileNotFoundException {
+        checkUpgradePossible(game.getCoffeeUpgrade());
+        checkUpgradePossible(game.getCakeUpgrade());
+        checkUpgradePossible(game.getPlayerUpgrade());
+        coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned()));
+    }
+
+    private void spawnNewCustomer(Customer customer) {
+        try {
+            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer());
+        } catch (NullPointerException y) {
+            safelySwitchToEndScreen();
+        }
+    }
+
+    private void completeGame() {
+        stopTimers();
+        safelySwitchToEndScreen();
+    }
+
+
 
     // Method used to stop all the timers activated by spawning customers
     public void stopTimers() {
