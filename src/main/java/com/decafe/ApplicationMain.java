@@ -2,6 +2,9 @@ package com.decafe;
 
 import java.io.IOException;
 
+import com.decafe.resources.ResourceProvider;
+import com.decafe.resources.files.ImageFiles;
+import com.decafe.resources.files.Scenes;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,17 +13,16 @@ import javafx.stage.Stage;
 
 public class ApplicationMain extends Application {
 
+    public static final String GAME_TITLE = "DeCafé";
     public static Stage stage;
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource("startScreen.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
         ApplicationMain.stage = stage;
-        stage.getIcons().add(new Image("file:src/main/resources/com/decafe/mugTabPic.png"));
-        stage.setTitle("DeCafé");
+        stage.getIcons().add(ResourceProvider.createImage(ImageFiles.MUG_TAB));
+        stage.setTitle(GAME_TITLE);
         ApplicationMain.stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
+        ResourceProvider.loadScene(Scenes.START);
     }
 
     public static void main(String[] args) {

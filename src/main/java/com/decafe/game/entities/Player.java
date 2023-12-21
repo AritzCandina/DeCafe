@@ -12,7 +12,6 @@ public class Player {
     private final String filenameImageWithCake;
     private ProductType productInHand; // The type of product the waiter holds in his hands (Coffee or Cake)
     private int movementSpeed;
-
     private MovementDirection movementDirection;
 
     public Player() {

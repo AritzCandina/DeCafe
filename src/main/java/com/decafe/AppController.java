@@ -14,15 +14,14 @@ import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;
 import com.decafe.resources.files.MusicFiles;
 
+import com.decafe.resources.files.Scenes;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
@@ -131,9 +130,9 @@ public class AppController implements Initializable {
     public ImageView endScreenBackground;
     public ImageView quitEndScreenImage;
 
-    private final int durationForStartTimer1 = 1;
-    private final int durationForStartTimer5 = 5;
-    private final int durationForStartTimer10 = 10;
+    private static final int SPAWN_TIME_SHORT = 1;
+    private static final int SPAWN_TIME_MEDIUM = 5;
+    private static final int SPAWN_TIME_LONG = 10;
 
 
     public Player player = new Player();
@@ -146,29 +145,23 @@ public class AppController implements Initializable {
 
     public AudioClip backgroundMusic = ResourceProvider.createAudioFile(MusicFiles.BACKGROUNDMUSIC);
 
-    public void loadScene(String sceneName) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(sceneName));
-        Scene scene = new Scene(fxmlLoader.load());
-        ApplicationMain.stage.setScene(scene);
-        ApplicationMain.stage.show();
-    }
 
     public void switchToEndScreen() throws IOException {
         backgroundMusic.stop();
-        loadScene("endScreen.fxml");
+        ResourceProvider.loadScene(Scenes.END);
     }
 
     public void switchToStartScreen() throws IOException {
-        loadScene("startScreen.fxml");
+        ResourceProvider.loadScene(Scenes.START);
     }
 
     public void switchToGameScreen() throws IOException {
-        loadScene("gameScreen.fxml");
+        ResourceProvider.loadScene(Scenes.GAME);
         if (Customer.customerImages[0] != null) {
             Customer customer = new Customer();
-            customer.startTimerSpawn(durationForStartTimer1, Customer.getSpawnTimer());
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getSpawnTimer());
-            customer.startTimerSpawn(durationForStartTimer10, Customer.getSpawnTimer());
+            customer.startTimerSpawn(SPAWN_TIME_SHORT, Customer.getSpawnTimer());
+            customer.startTimerSpawn(SPAWN_TIME_MEDIUM, Customer.getSpawnTimer());
+            customer.startTimerSpawn(SPAWN_TIME_LONG, Customer.getSpawnTimer());
             Customer.allCustomers.add(customer);
         }
 
@@ -177,7 +170,7 @@ public class AppController implements Initializable {
     }
 
     public void switchToInstructions() throws IOException {
-        loadScene("Instructions.fxml");
+        ResourceProvider.loadScene(Scenes.INSTRUCTIONS);
     }
 
     @FXML
@@ -445,7 +438,7 @@ public class AppController implements Initializable {
 
     private void spawnNewCustomerIfPossible(Customer customer) {
         try {
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getSpawnTimer());
+            customer.startTimerSpawn(SPAWN_TIME_MEDIUM, Customer.getSpawnTimer());
         } catch (NullPointerException e) {
             safelySwitchToEndScreen();
         }
@@ -546,7 +539,7 @@ public class AppController implements Initializable {
 
     private void spawnNewCustomer(Customer customer) {
         try {
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getSpawnTimer());
+            customer.startTimerSpawn(SPAWN_TIME_MEDIUM, Customer.getSpawnTimer());
         } catch (NullPointerException y) {
             safelySwitchToEndScreen();
         }

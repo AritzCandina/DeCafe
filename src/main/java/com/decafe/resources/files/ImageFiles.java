@@ -48,4 +48,5 @@ public abstract class ImageFiles {
     public static final String FIVE_COINS = "5coins" + EXTENSION_PNG;
     public static final String FOUR_COINS = "4coins" + EXTENSION_PNG;
     public static final String THREE_COINS = "3coins" + EXTENSION_PNG;
+    public static final String MUG_TAB = "mugTabPic" + EXTENSION_PNG;
 }

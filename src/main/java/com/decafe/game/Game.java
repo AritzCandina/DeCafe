@@ -27,6 +27,10 @@ public class Game {
     private static final int UPGRADE_COST_MACHINE = 20;
     private static final int UPGRADE_COST_PLAYER = 40;
 
+    private static final String UPGRADE_TYPE_COFFEE = "coffee";
+    private static final String UPGRADE_TYPE_CAKE = "cake";
+    private static final String UPGRADE_TYPE_PLAYER = "player";
+
     public Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
         this.coffeeMachine = new Machine(MACHINE_DURATION, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, ProductType.COFFEE);
         this.cakeMachine = new Machine(MACHINE_DURATION, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, ProductType.CAKE);
@@ -74,15 +78,15 @@ public class Game {
 
     public void doUpgrade(String type, Player CofiBrew) throws FileNotFoundException {
         switch (type) {
-            case "coffee" -> {
+            case UPGRADE_TYPE_COFFEE -> {
                 coinsEarned = coffeeUpgrade.doUpgrade(coinsEarned);
                 coffeeMachine.setProductionDuration(UPGRADED_MACHINE_DURATION);
             }
-            case "cake" -> {
+            case UPGRADE_TYPE_CAKE -> {
                 coinsEarned = cakeUpgrade.doUpgrade(coinsEarned);
                 cakeMachine.setProductionDuration(UPGRADED_MACHINE_DURATION);
             }
-            case "player" -> {
+            case UPGRADE_TYPE_PLAYER -> {
                 coinsEarned = playerUpgrade.doUpgrade(coinsEarned);
                 CofiBrew.setMovement(UPGRADED_MOVEMENT_SPEED);
             }

@@ -1,10 +1,10 @@
 package com.decafe.resources;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 
+import com.decafe.ApplicationMain;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 
@@ -27,8 +27,16 @@ public class ResourceProvider {
         return new AudioClip(new File(fileName).toURI().toString());
     }
 
+    public static void loadScene(String sceneName) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(sceneName));
+        Scene scene = new Scene(fxmlLoader.load());
+        ApplicationMain.stage.setScene(scene);
+        ApplicationMain.stage.show();
+    }
+
     private static String getResourceFilePath(){
         return new File("").getAbsolutePath() + File.separator + DIR_SRC + File.separator + DIR_MAIN + File.separator + DIR_RESOURCES + File.separator + DIR_COM + File.separator + DIR_DECAFE + File.separator;
     }
+
 
 }
