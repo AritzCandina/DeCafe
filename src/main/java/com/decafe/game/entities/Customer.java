@@ -41,9 +41,11 @@ public class Customer {
     public static ImageView[] orderLabels;
     public static ImageView[] coinImages;
 
-    private static final int DELAY_1000 = 1000;
-
-    private static final int DURATION_5 = 5;
+    private static final int SPAWN_TIMER_DELAY_DEFAULT = 1000;
+    private static final int RESPWAN_TIMER_DEFAULT = 5;
+    public static final int MAX_NUMBER_CUSTOMERS = 3;
+    public static final long START_TIMER_DELAY_MULTIPLICATOR = 1000L;
+    public static final int CUSTOMER_WATING_TIME = 60;
 
     public Customer(){}
     Customer(ImageView image, ImageView label, int chair, ImageView smiley, ImageView coinImage) {
@@ -187,7 +189,7 @@ public class Customer {
 
 
     public static void spawnCustomers(){
-        if (customersInCoffeeShop.size() < 3 && !freeChairs.isEmpty()) { //spawn a new customer this when under 3 customers are in the café
+        if (customersInCoffeeShop.size() < MAX_NUMBER_CUSTOMERS && !freeChairs.isEmpty()) { //spawn a new customer this when under 3 customers are in the café
             ImageView customerImage = getRandomCustomerPicture();
             customerImage.setVisible(true);
 
@@ -213,7 +215,7 @@ public class Customer {
                         spawnTimer.purge();
                     }
                 },
-                duration * 1000L
+                duration * START_TIMER_DELAY_MULTIPLICATOR
         );
     }
 
@@ -233,7 +235,7 @@ public class Customer {
                         spawnTimer.purge();
                     }
                 },
-                DELAY_1000
+                SPAWN_TIMER_DELAY_DEFAULT
         );
         this.sixtySecondsTimer.cancel();
     }
@@ -242,11 +244,11 @@ public class Customer {
     public void waitingTime()  {
         Customer customer = this;
         TimerTask timerTask = new TimerTask() {
-            int seconds = 60;
+            int seconds = CUSTOMER_WATING_TIME;
             @Override
             public void run() {
                 seconds --;
-                if (seconds == 59){ //set green smiley when the customer has just spawned
+                if (seconds == CUSTOMER_WATING_TIME - 1){ //set green smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
                         smiley.setImage(ResourceProvider.createImage(ImageFiles.SIMLEY_GREEN));
@@ -256,7 +258,7 @@ public class Customer {
                     green = true;
                     yellow = false;
                     red = false;
-                }else if (seconds == 30){ //set yellow smiley when the customer has just spawned
+                }else if (seconds == CUSTOMER_WATING_TIME / 2){ //set yellow smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
                         smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_YELLOW));
@@ -266,7 +268,7 @@ public class Customer {
                     green = false;
                     yellow = true;
                     red = false;
-                }else if (seconds == 15){ //set red smiley when the customer has just spawned
+                }else if (seconds == CUSTOMER_WATING_TIME / 4){ //set red smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
                         smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_RED));
@@ -335,7 +337,7 @@ public class Customer {
         customer.coinImage.setVisible(false);
         customer.coinImage.setDisable(true);
         freeChairs.add(customer.getChair());
-        customer.startTimerSpawn(customer.DURATION_5, spawnTimer);
+        customer.startTimerSpawn(RESPWAN_TIMER_DEFAULT, spawnTimer);
     }
 
     public void leave (ImageView customerImage) throws FileNotFoundException {

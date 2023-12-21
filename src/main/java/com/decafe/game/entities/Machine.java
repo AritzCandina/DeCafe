@@ -25,9 +25,9 @@ public class Machine {
     private final String filenameImageMachineWithProduct;
     private final ProductType productType;
 
-    private static final int MILLISEC_300 = 300;
-
-    private static final long MULTIPLICATOR_1000 = 1000;
+    private static final int PROGRESSBAR_KEYFRAME_DURATION = 300;
+    private static final long PRODUCTION_DURATION_MULTIPLICATOR = 1000;
+    public static final int PROGRESSBAR_MAX_STATUS = 12;
 
     public Machine(int duration, String filenameImageMachineWithProduct, String filenameImageMachineWithoutProduct, ProductType productType){
         this.productionDuration = duration;
@@ -63,13 +63,12 @@ public class Machine {
                 )
         );
 
-        int maxStatus = 12;
         IntegerProperty statusCountProperty = new SimpleIntegerProperty(1);
         Timeline timelineBar = new Timeline(
                 new KeyFrame(
                         // Set this value for the speed of the animation
-                        Duration.millis(MILLISEC_300),
-                        new KeyValue(statusCountProperty, maxStatus)
+                        Duration.millis(PROGRESSBAR_KEYFRAME_DURATION),
+                        new KeyValue(statusCountProperty, PROGRESSBAR_MAX_STATUS)
                 )
         );
 
@@ -97,7 +96,7 @@ public class Machine {
                         productionTimer.cancel();
                     }
                 },
-                this.productionDuration * MULTIPLICATOR_1000
+                this.productionDuration * PRODUCTION_DURATION_MULTIPLICATOR
         );
     }
 

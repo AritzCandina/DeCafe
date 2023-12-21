@@ -31,6 +31,10 @@ public class Game {
     private static final String UPGRADE_TYPE_CAKE = "cake";
     private static final String UPGRADE_TYPE_PLAYER = "player";
 
+    private static final int COIN_REWARD_GREEN = 7;
+    private static final int COIN_REWARD_YELLOW = 5;
+    private static final int COIN_REWARD_RED = 3;
+
     public Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
         this.coffeeMachine = new Machine(MACHINE_DURATION, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, ProductType.COFFEE);
         this.cakeMachine = new Machine(MACHINE_DURATION, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, ProductType.CAKE);
@@ -95,11 +99,11 @@ public class Game {
 
     public void setCoinsEarned(Customer customer){
         if (customer.isGreen()){
-            this.coinsEarned += 7;
+            this.coinsEarned += COIN_REWARD_GREEN;
         } else if (customer.isYellow()){
-            this.coinsEarned += 5;
+            this.coinsEarned += COIN_REWARD_YELLOW;
         }else if (customer.isRed()){
-            this.coinsEarned += 3;
+            this.coinsEarned += COIN_REWARD_RED;
         }
     }
 }
