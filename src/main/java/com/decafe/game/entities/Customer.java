@@ -40,10 +40,10 @@ public class Customer {
     public static ImageView[] coinImages;
 
     private static final int SPAWN_TIMER_DELAY_DEFAULT = 1000;
-    private static final int RESPWAN_TIMER_DEFAULT = 5;
+    private static final int RESPAWN_TIMER_DEFAULT = 5;
     public static final int MAX_NUMBER_CUSTOMERS = 3;
     public static final long START_TIMER_DELAY_MULTIPLICATOR = 1000L;
-    public static final int CUSTOMER_WATING_TIME = 60;
+    public static final int CUSTOMER_WAITING_TIME = 60;
 
     public Customer(){}
     Customer(ImageView image, ImageView label, int chair, ImageView smiley, ImageView coinImage) {
@@ -125,50 +125,22 @@ public class Customer {
         Customer.spawnTimer = spawnTimer;
     }
 
-    public static ImageView getCorrectCustomerImage(ImageView customer, ImageView[] searchArray ){
-        ImageView wantedImage = new ImageView();
-
-        if (customerImages[0].equals(customer)) {
-            wantedImage = searchArray[0];
-        } else if (customerImages[1].equals(customer)) {
-            wantedImage = searchArray[1];
-        } else if (customerImages[2].equals(customer)) {
-            wantedImage = searchArray[2];
-        } else if (customerImages[3].equals(customer)) {
-            wantedImage = searchArray[3];
-        } else if (customerImages[4].equals(customer)) {
-            wantedImage = searchArray[4];
-        } else if (customerImages[5].equals(customer)) {
-            wantedImage = searchArray[5];
-        } else if (customerImages[6].equals(customer)) {
-            wantedImage = searchArray[6];
+    public static ImageView getCorrectCustomerImage(ImageView customer, ImageView[] searchArray) {
+        for (int i = 0; i < customerImages.length; i++) {
+            if (customerImages[i].equals(customer)) {
+                return searchArray[i];
+            }
         }
-
-        return wantedImage;
+        return new ImageView();
     }
 
     public static ImageView getCorrectCustomerOrderLabel(ImageView customer) {
-
-        ImageView customerOrder = new ImageView();
-
-        if (customerImages[0].equals(customer)) {
-            customerOrder = orderLabels[0];
-        } else if (customerImages[1].equals(customer)) {
-            customerOrder = orderLabels[1];
-        } else if (customerImages[2].equals(customer)) {
-            customerOrder = orderLabels[2];
-        } else if (customerImages[3].equals(customer)) {
-            customerOrder = orderLabels[3];
-        } else if (customerImages[4].equals(customer)) {
-            customerOrder = orderLabels[4];
-        } else if (customerImages[5].equals(customer)) {
-            customerOrder = orderLabels[5];
-        } else if (customerImages[6].equals(customer)) {
-            customerOrder = orderLabels[6];
+        for (int i = 0; i < customerImages.length; i++) {
+            if (customerImages[i].equals(customer)) {
+                return orderLabels[i];
+            }
         }
-
-        return customerOrder;
-
+        return null;
     }
 
     public static ImageView getRandomCustomerPicture(){
@@ -241,7 +213,7 @@ public class Customer {
 
     public void waitingTime() {
         TimerTask timerTask = new TimerTask() {
-            int seconds = CUSTOMER_WATING_TIME;
+            int seconds = CUSTOMER_WAITING_TIME;
 
             @Override
             public void run() {
@@ -256,11 +228,11 @@ public class Customer {
     }
 
     private void updateSmileyState(int seconds) {
-        if (seconds == CUSTOMER_WATING_TIME - 1) {
+        if (seconds == CUSTOMER_WAITING_TIME - 1) {
             setSmiley(SmileyColor.GREEN);
-        } else if (seconds == CUSTOMER_WATING_TIME / 2) {
+        } else if (seconds == CUSTOMER_WAITING_TIME / 2) {
             setSmiley(SmileyColor.YELLOW);
-        } else if (seconds == CUSTOMER_WATING_TIME / 4) {
+        } else if (seconds == CUSTOMER_WAITING_TIME / 4) {
             setSmiley(SmileyColor.RED);
         }
     }
@@ -333,7 +305,7 @@ public class Customer {
         customer.coinImage.setVisible(false);
         customer.coinImage.setDisable(true);
         freeChairs.add(customer.getChair());
-        customer.startTimerSpawn(RESPWAN_TIMER_DEFAULT, spawnTimer);
+        customer.startTimerSpawn(RESPAWN_TIMER_DEFAULT, spawnTimer);
     }
 
     public void leave (ImageView customerImage) throws FileNotFoundException {
