@@ -24,10 +24,9 @@ public class Customer {
     private ImageView smiley;
     private ImageView coinImage;
 
+    private SmileyColor smileyColor;
+
     private boolean alreadyOrdered;
-    private boolean green;
-    private boolean yellow;
-    private boolean red;
 
     private boolean leftUnhappy = true;
 
@@ -70,15 +69,15 @@ public class Customer {
     }
 
     public boolean isGreen() { //to see if the color of the smiley
-        return green;
+        return smileyColor.equals(SmileyColor.GREEN);
     }
 
     public boolean isRed() { //to see if the color of the smiley
-        return red;
+        return smileyColor.equals(SmileyColor.RED);
     }
 
     public boolean isYellow() { //to see if the color of the smiley
-        return yellow;
+        return smileyColor.equals(SmileyColor.YELLOW);
     }
 
     public boolean isAlreadyOrdered() { //return if the customer has already ordered or not
@@ -240,52 +239,50 @@ public class Customer {
     }
 
 
-    public void waitingTime()  {
-        Customer customer = this;
+    public void waitingTime() {
         TimerTask timerTask = new TimerTask() {
             int seconds = CUSTOMER_WATING_TIME;
+
             @Override
             public void run() {
-                seconds --;
-                if (seconds == CUSTOMER_WATING_TIME - 1){ //set green smiley when the customer has just spawned
-                    smiley.setVisible(true);
-                    try {
-                        smiley.setImage(ResourceProvider.createImage(ImageFiles.SIMLEY_GREEN));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    green = true;
-                    yellow = false;
-                    red = false;
-                }else if (seconds == CUSTOMER_WATING_TIME / 2){ //set yellow smiley when the customer has just spawned
-                    smiley.setVisible(true);
-                    try {
-                        smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_YELLOW));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    green = false;
-                    yellow = true;
-                    red = false;
-                }else if (seconds == CUSTOMER_WATING_TIME / 4){ //set red smiley when the customer has just spawned
-                    smiley.setVisible(true);
-                    try {
-                        smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_RED));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    green = false;
-                    yellow = false;
-                    red = true;
-                }
-                else if (seconds == 0){ //when the timer has finished - customer leaves
-                    startTimerLeave(customer);
+                seconds--;
+                updateSmileyState(seconds);
+                if (seconds == 0) {
+                    startTimerLeave(Customer.this);
                 }
             }
         };
+        this.sixtySecondsTimer.schedule(timerTask, 0, 1000);
+    }
 
-        this.sixtySecondsTimer.schedule(timerTask, 0, 1000);//it should call this methode every second
+    private void updateSmileyState(int seconds) {
+        if (seconds == CUSTOMER_WATING_TIME - 1) {
+            setSmiley(SmileyColor.GREEN);
+        } else if (seconds == CUSTOMER_WATING_TIME / 2) {
+            setSmiley(SmileyColor.YELLOW);
+        } else if (seconds == CUSTOMER_WATING_TIME / 4) {
+            setSmiley(SmileyColor.RED);
+        }
+    }
 
+    private void setSmiley(SmileyColor color) {
+        this.smileyColor = color;
+        smiley.setVisible(true);
+        try {
+            switch (color) {
+                case GREEN:
+                    smiley.setImage(ResourceProvider.createImage(ImageFiles.SIMLEY_GREEN));
+                    break;
+                case YELLOW:
+                    smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_YELLOW));
+                    break;
+                case RED:
+                    smiley.setImage(ResourceProvider.createImage(ImageFiles.SMILEY_RED));
+                    break;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void displayOrder(ImageView orderlabel) throws FileNotFoundException {
