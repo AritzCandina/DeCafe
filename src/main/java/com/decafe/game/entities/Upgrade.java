@@ -21,7 +21,6 @@ public class Upgrade {
         this.upgradeImageView = upgradeImageView;
     }
 
-    // Getter
     public boolean isAlreadyUsedOnce() {
         return alreadyUsedOnce;
     }
@@ -40,7 +39,6 @@ public class Upgrade {
 
     public ImageView getUpgradeImageView() { return upgradeImageView; }
 
-    // Setter
     public void setAlreadyUsedOnce(boolean alreadyUsedOnce) {
         this.alreadyUsedOnce = alreadyUsedOnce;
     }
@@ -49,7 +47,6 @@ public class Upgrade {
         this.upgradeImageView.setImage(ResourceProvider.createImage(this.filenameUpgradeUsed));
         this.upgradeImageView.setDisable(true);
         this.setAlreadyUsedOnce(true);
-        // Decrease the coins score according to the upgrade costs
         coin -= this.getCoinsNeeded();
         return coin;
     }

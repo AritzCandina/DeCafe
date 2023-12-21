@@ -13,31 +13,30 @@ import javafx.scene.image.ImageView;
 
 //Class that is used mainly to control certain assets of the Game like Machines, Upgrades and the Coin Score
 public class Game {
-    private final Machine coffeeMachine; // A Machine Object used to make Coffee
-    private final Machine cakeMachine; // A Machine Object used to make Cake
-    private final Upgrade coffeeUpgrade; // An Upgrade Object used to upgrade the Coffee Machine
-    private final Upgrade cakeUpgrade; // An Upgrade Object used to upgrade the Cake Machine
-    private final Upgrade playerUpgrade; // An Upgrade Object used to make the Player faster
-    private int coinsEarned; // The amount of Coins earned/used in the Game - 0 at the beginning
+    private final Machine coffeeMachine;
+    private final Machine cakeMachine;
+    private final Upgrade coffeeUpgrade;
+    private final Upgrade cakeUpgrade;
+    private final Upgrade playerUpgrade;
+    private int coinsEarned;
 
-    private final int duration5 = 5;
-    private final int duration2 = 2;
-    private final int movement6 = 6;
-    private final int coinsNeeded20 = 20;
-    private final int coinsNeeded40 = 40;
+    private static final int UPGRADED_MACHINE_DURATION = 2;
+    private static final int MACHINE_DURATION = 5;
+    private static final int UPGRADED_MOVEMENT_SPEED = 6;
 
-    // Constructor
+    private static final int UPGRADE_COST_MACHINE = 20;
+    private static final int UPGRADE_COST_PLAYER = 40;
+
     public Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
-        this.coffeeMachine = new Machine(duration5, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, ProductType.COFFEE);
-        this.cakeMachine = new Machine(duration5, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, ProductType.CAKE);
-        this.coffeeUpgrade = new Upgrade(coinsNeeded20, false, ImageFiles.COFFEE_UPGRADE, ImageFiles.COFFEE_USED, upgradeCoffee);
-        this.cakeUpgrade = new Upgrade(coinsNeeded20, false, ImageFiles.CAKE_UPGRADE, ImageFiles.CAKE_USED, upgradeCake);
-        this.playerUpgrade = new Upgrade(coinsNeeded40, false, ImageFiles.UPGRADE_SKATES, ImageFiles.UPGRADE_SKATES_USED,  upgradePlayer);
+        this.coffeeMachine = new Machine(MACHINE_DURATION, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, ProductType.COFFEE);
+        this.cakeMachine = new Machine(MACHINE_DURATION, ImageFiles.KITCHEN_AID_USED, ImageFiles.KITCHEN_AID, ProductType.CAKE);
+        this.coffeeUpgrade = new Upgrade(UPGRADE_COST_MACHINE, false, ImageFiles.COFFEE_UPGRADE, ImageFiles.COFFEE_USED, upgradeCoffee);
+        this.cakeUpgrade = new Upgrade(UPGRADE_COST_MACHINE, false, ImageFiles.CAKE_UPGRADE, ImageFiles.CAKE_USED, upgradeCake);
+        this.playerUpgrade = new Upgrade(UPGRADE_COST_PLAYER, false, ImageFiles.UPGRADE_SKATES, ImageFiles.UPGRADE_SKATES_USED,  upgradePlayer);
         this.coinsEarned = 0;
 
     }
 
-    // Getter
     public Machine getCakeMachine() {
         return cakeMachine;
     }
@@ -62,55 +61,40 @@ public class Game {
     public int getCoinsEarned() { return coinsEarned; }
 
 
-    // Method to check if the Player can use a certain Upgrade
+
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
-        if (!upgrade.isAlreadyUsedOnce() && this.coinsEarned >= upgrade.getCoinsNeeded()){ // If upgrade was not already used and the Player earned enough coins to buy it
-            // Enable the ImageView
+        if (!upgrade.isAlreadyUsedOnce() && this.coinsEarned >= upgrade.getCoinsNeeded()){
             upgrade.getUpgradeImageView().setDisable(false);
-            // Set the Image to the "activated" Upgrade Image
             upgrade.getUpgradeImageView().setImage(ResourceProvider.createImage(upgrade.getFilenameUpgradeNotUsed()));
-        } else { // If the upgrade was used already or the Player hasn't enough coins to buy it
-            // Disable the Image
+        } else {
             upgrade.getUpgradeImageView().setDisable(true);
-            // Set the Image to "deactivated" Upgrade Image
             upgrade.getUpgradeImageView().setImage(ResourceProvider.createImage(upgrade.getFilenameUpgradeUsed()));
         }
     }
 
-    // Method to do a certain upgrade
     public void doUpgrade(String type, Player CofiBrew) throws FileNotFoundException {
-        switch (type) { // Switch the type of upgrade you received
-            case "coffee" -> { // If the player chose the coffee upgrade
-                // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
+        switch (type) {
+            case "coffee" -> {
                 coinsEarned = coffeeUpgrade.doUpgrade(coinsEarned);
-                // Increase the speed of the Coffee Machine
-                coffeeMachine.setDuration(duration2);
+                coffeeMachine.setProductionDuration(UPGRADED_MACHINE_DURATION);
             }
-            case "cake" -> { // If the player chose the cake upgrade
-                // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
+            case "cake" -> {
                 coinsEarned = cakeUpgrade.doUpgrade(coinsEarned);
-                // Increase the speed of the Cake Machine
-                cakeMachine.setDuration(duration2);
+                cakeMachine.setProductionDuration(UPGRADED_MACHINE_DURATION);
             }
-            case "player" -> { // If the player chose the player upgrade
-                // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
+            case "player" -> {
                 coinsEarned = playerUpgrade.doUpgrade(coinsEarned);
-                // Increase the movement speed of the Player
-                CofiBrew.setMovement(movement6);
+                CofiBrew.setMovement(UPGRADED_MOVEMENT_SPEED);
             }
         }
     }
 
-    // Method to increase coins earned according to how satisfied the customer was
     public void setCoinsEarned(Customer customer){
-        if (customer.isGreen()){ // If customer was happy
-            // Increase coin score by 5
+        if (customer.isGreen()){
             this.coinsEarned += 7;
-        } else if (customer.isYellow()){ // If customer left in a "normal" mood
-            // Increase coin score by 4
+        } else if (customer.isYellow()){
             this.coinsEarned += 5;
-        }else if (customer.isRed()){ // If customer lef in a bad mood
-            // Increase coin score by 3
+        }else if (customer.isRed()){
             this.coinsEarned += 3;
         }
     }

@@ -8,12 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-// Class used to start the JavaFX Application
 public class ApplicationMain extends Application {
 
     public static Stage stage;
     @Override
-    // Start Application by starting the Stage
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource("startScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

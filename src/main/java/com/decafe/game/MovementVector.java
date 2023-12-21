@@ -1,5 +1,9 @@
 package com.decafe.game;
 
+/*
+   This represents the offset to which the player is about to move
+   on the next tick, relative to its current position.
+ */
 public class MovementVector {
     double x;
     double y;

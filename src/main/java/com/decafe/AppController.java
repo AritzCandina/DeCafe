@@ -135,19 +135,17 @@ public class AppController implements Initializable {
     private final int durationForStartTimer5 = 5;
     private final int durationForStartTimer10 = 10;
 
-    // Player object created to change Images and movement Speed
+
     public Player player = new Player();
-    // Game object used to control main methods
+
     public Game game;
-    // Label array used for collision detection management
+
     private Label[] collisions;
-    // Timer used to spawn customers or make them leave
-    public Timer controllerTimer = new Timer();
+
+    public Timer spawnTimer = new Timer();
 
     public AudioClip backgroundMusic = ResourceProvider.createAudioFile(MusicFiles.BACKGROUNDMUSIC);
 
-
-    // Method used to load a certain scene according to the name of the fxml file
     public void loadScene(String sceneName) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ApplicationMain.class.getResource(sceneName));
         Scene scene = new Scene(fxmlLoader.load());
@@ -155,25 +153,22 @@ public class AppController implements Initializable {
         ApplicationMain.stage.show();
     }
 
-    // jump to end screen
     public void switchToEndScreen() throws IOException {
         backgroundMusic.stop();
         loadScene("endScreen.fxml");
     }
 
-    // jump to start screen
-    public void switchToStartScreen() throws IOException { // if button BACK TO START MENU is pressed
+    public void switchToStartScreen() throws IOException {
         loadScene("startScreen.fxml");
     }
 
-    // jump from start screen to game screen
-    public void switchToGameScreen() throws IOException { // if button PLAY AGAIN is pressed
+    public void switchToGameScreen() throws IOException {
         loadScene("gameScreen.fxml");
         if (Customer.customerImages[0] != null) {
             Customer customer = new Customer();
-            customer.startTimerSpawn(durationForStartTimer1, Customer.getControllerTimer());
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer());
-            customer.startTimerSpawn(durationForStartTimer10, Customer.getControllerTimer());
+            customer.startTimerSpawn(durationForStartTimer1, Customer.getSpawnTimer());
+            customer.startTimerSpawn(durationForStartTimer5, Customer.getSpawnTimer());
+            customer.startTimerSpawn(durationForStartTimer10, Customer.getSpawnTimer());
             Customer.allCustomers.add(customer);
         }
 
@@ -181,12 +176,10 @@ public class AppController implements Initializable {
         backgroundMusic.play();
     }
 
-    // jump to instructions
     public void switchToInstructions() throws IOException {
         loadScene("Instructions.fxml");
     }
 
-    // key events if wasd-keys are pressed
     @FXML
     public void keyPressed(KeyEvent event) {
         switch (event.getCode()) {
@@ -197,7 +190,6 @@ public class AppController implements Initializable {
         }
     }
 
-    // key events if wasd-keys are released
     @FXML
     public void keyReleased(KeyEvent event) {
         switch (event.getCode()) {
@@ -208,7 +200,6 @@ public class AppController implements Initializable {
         }
     }
 
-    // for smoother motion
     AnimationTimer animationTimer = new AnimationTimer() {
 
         @Override
@@ -224,14 +215,10 @@ public class AppController implements Initializable {
         }
     };
 
-
-
     private void updatePlayerPosition(MovementVector movementVector) {
-        // set x and y coordinates of waiter
         waiterImageView.setLayoutX(waiterImageView.getLayoutX() + movementVector.getX());
         waiterImageView.setLayoutY(waiterImageView.getLayoutY() + movementVector.getY());
 
-        // if collision is detected, set x and y coordinates back to where no collision occurred
         if (checkForCollision(waiterImageView)) {
             waiterImageView.setLayoutX(waiterImageView.getLayoutX() - movementVector.getX());
             waiterImageView.setLayoutY(waiterImageView.getLayoutY() - movementVector.getY());
@@ -343,7 +330,7 @@ public class AppController implements Initializable {
                 coinFifth, coinSixth, coinSeventh
         };
         Customer.freeChairs = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
-        Customer.setControllerTimer(controllerTimer);
+        Customer.setSpawnTimer(spawnTimer);
     }
 
     private void initializeGame() {
@@ -351,67 +338,54 @@ public class AppController implements Initializable {
     }
 
 
-    // start screen - change start button on mouse entered
     public void changeStartCoffeeImage() throws FileNotFoundException {
         startButton.setImage(ResourceProvider.createImage(ImageFiles.START_COFFEE_HOT));
     }
 
-    // start screen - change coffee button on mouse exited
     public void changeStartCoffeeImageBack() throws FileNotFoundException {
         startButton.setImage(ResourceProvider.createImage(ImageFiles.START_COFFEE));
     }
 
-    // start screen - change Quit Button on mouse entered
     public void changeQuitStartScreen() throws FileNotFoundException {
         startQuitButton.setImage(ResourceProvider.createImage(ImageFiles.QUITE_END_SCREEN_BRIGHTER));
     }
 
-    // start screen - change Quit Button when mouse exited
     public void changeQuitStartScreenBack() throws FileNotFoundException {
         startQuitButton.setImage(ResourceProvider.createImage(ImageFiles.QUIT_END_SCREEN));
     }
 
-    // instructions - change GOT IT! on mouse entered
     public void changeStartImage() throws FileNotFoundException {
         gameStartButton.setImage(ResourceProvider.createImage(ImageFiles.INSTRUCTIONS_GOT_IT));
     }
 
-    // instructions - change GOT IT! on mouse exited
     public void changeStartImageBack() throws FileNotFoundException {
         gameStartButton.setImage(ResourceProvider.createImage(ImageFiles.INSTRUCTIONS_GOT_IT_BRIGHTER));
     }
 
-    // end screen - change PlayAgain Button when mouse entered
     public void changePlayAgain() throws FileNotFoundException {
         playAgainImage.setImage(ResourceProvider.createImage(ImageFiles.PLAY_AGAIN_BRIGHTER));
     }
 
-    // end screen - change PlayAgain Button when mouse exited
     public void changePlayAgainBack() throws FileNotFoundException {
         playAgainImage.setImage(ResourceProvider.createImage(ImageFiles.PLAY_AGAIN));
     }
 
-    // end screen - change BackToStartMenu Button when mouse entered
     public void changeBackToStartMenu() throws FileNotFoundException {
         backToStartImage.setImage(ResourceProvider.createImage(ImageFiles.BACK_TO_START_MENU_BRIGHTER));
     }
 
-    // end screen - change BackToStartMenu Button when mouse exited
     public void changeBackToStartMenuBack() throws FileNotFoundException {
         backToStartImage.setImage(ResourceProvider.createImage(ImageFiles.BACK_TO_START_MENU));
     }
 
-    // end screen - change Quit Button when mouse entered
     public void changeQuitEndScreen() throws FileNotFoundException {
         quitEndScreenImage.setImage(ResourceProvider.createImage(ImageFiles.QUITE_END_SCREEN_BRIGHTER));
     }
 
-    // end screen - change Quit Button when mouse exited
     public void changeQuitEndScreenBack() throws FileNotFoundException {
         quitEndScreenImage.setImage(ResourceProvider.createImage(ImageFiles.QUIT_END_SCREEN));
     }
 
-    // if waiter is near coffee machine, change appearance when clicked
     public void showCoffee() throws FileNotFoundException {
         if (waiterImageView.getBoundsInParent().intersects(coffeeMachineImageView.getBoundsInParent())) {
             game.getCoffeeMachine().displayProduct(waiterImageView, coffeeMachineImageView, player, progressBarCoffee);
@@ -419,7 +393,6 @@ public class AppController implements Initializable {
         }
     }
 
-    // if waiter is near cake machine, change appearance when clicked
     public void showCake() throws FileNotFoundException {
         if (waiterImageView.getBoundsInParent().intersects(cakeMachineImageView.getBoundsInParent())) {
             game.getCakeMachine().displayProduct(waiterImageView, cakeMachineImageView, player, progressBarCake);
@@ -427,7 +400,6 @@ public class AppController implements Initializable {
         }
     }
 
-    // if no product is held by waiter
     public void noProduct() throws FileNotFoundException {
         if (player.getProductInHand().equals(ProductType.COFFEE) || player.getProductInHand().equals(ProductType.CAKE)) {
             SoundPlayer.playSound(MusicFiles.TRASH_SOUND);
@@ -436,23 +408,21 @@ public class AppController implements Initializable {
         }
     }
 
-    // find the customer in the customerList and return it
     public Customer findCustomer(List<Customer> customerList, ImageView customerImageView) {
         for (Customer customer : customerList) {
-            if (customer.getImage().equals(customerImageView)) {
+            if (customer.getCorrectCustomerImage().equals(customerImageView)) {
                 return customer;
             }
         }
-        return null; // if not found return null
+        return null;
     }
 
-    // Method used to display a customer, check if and order was right and set Images for coin ImagesViews
     public void handlePersonClick(MouseEvent event) throws FileNotFoundException {
         ImageView customerImageView = (ImageView) event.getSource();
         Customer customer = findCustomer(Customer.customersInCoffeeShop, customerImageView);
 
         if (!customer.isAlreadyOrdered()) {
-            customer.displayOrder(customer.getLabel());
+            customer.displayOrder(customer.getCorrectCustomerOrderLabel());
         }
 
         if (!isWaiterNearCustomer(customerImageView)) {
@@ -475,7 +445,7 @@ public class AppController implements Initializable {
 
     private void spawnNewCustomerIfPossible(Customer customer) {
         try {
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer());
+            customer.startTimerSpawn(durationForStartTimer5, Customer.getSpawnTimer());
         } catch (NullPointerException e) {
             safelySwitchToEndScreen();
         }
@@ -515,27 +485,21 @@ public class AppController implements Initializable {
         }
     }
 
-    // Method to check if an Upgrade can be made (check if player has earned enough coins and if it was already used or not)
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
         game.checkUpgradePossible(upgrade);
     }
 
-    // Method to actively use an Upgrade
     public void doUpgrade(MouseEvent e) throws FileNotFoundException {
-        // activate the Upgrade (according to whatever ImageView was chosen)
         game.doUpgrade(((ImageView) e.getSource()).getId(), player);
-        // set the coin label to the correct amount of coins (coins earned - upgrade costs)
         coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned()));
 
         SoundPlayer.playSound(MusicFiles.UPGRADE_SOUND);
 
-        // check if other upgrades are still possible or if they need to be "deactivated"
         checkUpgradePossible(game.getCoffeeUpgrade());
         checkUpgradePossible(game.getCakeUpgrade());
         checkUpgradePossible(game.getPlayerUpgrade());
     }
 
-    // check if collisions occur
     public boolean checkForCollision(ImageView waiter) {
         for (Label collision : collisions) { // iterate through labels
             if (waiter.getBoundsInParent().intersects(collision.getBoundsInParent())) { // if waiter would collide with a label
@@ -545,7 +509,6 @@ public class AppController implements Initializable {
         return false;
     }
 
-    // Method used when coin Image is clicked on
     public void getMoney(MouseEvent e, Customer customer) throws FileNotFoundException {
         SoundPlayer.playSound(MusicFiles.COINS_SOUND);
         Customer.addFreeSeat(customer.getChair());
@@ -583,7 +546,7 @@ public class AppController implements Initializable {
 
     private void spawnNewCustomer(Customer customer) {
         try {
-            customer.startTimerSpawn(durationForStartTimer5, Customer.getControllerTimer());
+            customer.startTimerSpawn(durationForStartTimer5, Customer.getSpawnTimer());
         } catch (NullPointerException y) {
             safelySwitchToEndScreen();
         }
@@ -595,22 +558,20 @@ public class AppController implements Initializable {
     }
 
 
-    // Method used to stop all the timers activated by spawning customers
     public void stopTimers() {
         Customer.allCustomers.stream()
                 .map(Customer::getSixtySecondsTimer)
                 .filter(Objects::nonNull)
                 .forEach(Timer::cancel);
 
-        Customer.allCustomers.clear(); // clear all Lists created by spawning/despawning customer
+        Customer.allCustomers.clear();
         Customer.customersInCoffeeShop.clear();
         Customer.freeChairs.clear();
-        player.setProductInHand(ProductType.NONE); // clear Cofis hand
-        controllerTimer.cancel(); // cancel spawn/leaving timer
-        Customer.getControllerTimer().cancel();
+        player.setProductInHand(ProductType.NONE);
+        spawnTimer.cancel();
+        Customer.getSpawnTimer().cancel();
     }
 
-    // end game (called when exit clicked) - in Game Screen
     public void endGameQuick() {
         stopTimers();
         backgroundMusic.stop();
@@ -618,7 +579,6 @@ public class AppController implements Initializable {
         System.exit(0);
     }
 
-    // end game (called when quit button is clicked) - in End Screen and Start Screen
     public void endGame() {
         Platform.exit();
         backgroundMusic.stop();

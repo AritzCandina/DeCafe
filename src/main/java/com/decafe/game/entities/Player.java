@@ -5,7 +5,8 @@ import com.decafe.game.ProductType;
 import com.decafe.resources.files.ImageFiles;
 
 public class Player {
-    private final int DEFAULT_MOVEMENT_SPEED = 4;
+    private static final int DEFAULT_MOVEMENT_SPEED = 4;
+
     private final String filenameImageWithoutProduct;
     private final String filenameImageWithCoffee;
     private final String filenameImageWithCake;
@@ -14,7 +15,6 @@ public class Player {
 
     private MovementDirection movementDirection;
 
-    // Constructor
     public Player() {
         this.filenameImageWithoutProduct = ImageFiles.COFI_BREW_UP;
         this.filenameImageWithCake =  ImageFiles.COFI_BREW_CAKE_UP;
@@ -24,7 +24,6 @@ public class Player {
         this.movementDirection = MovementDirection.NONE;
     }
 
-    //Getter
     public ProductType getProductInHand() {
         return productInHand;
     }
@@ -45,7 +44,6 @@ public class Player {
         return movementSpeed;
     }
 
-    //Setter
     public void setProductInHand(ProductType productInHand) {
         this.productInHand = productInHand;
     }
