@@ -99,53 +99,43 @@ public class Machine {
     }
 
 
-    public void displayProduct (ImageView waiterImageView, ImageView machineImageView, Player cofiBrew, ProgressBar machineProgressBar) throws FileNotFoundException {
+    public void displayProduct(ImageView waiterImageView, ImageView machineImageView, Player cofiBrew, ProgressBar machineProgressBar) throws FileNotFoundException {
+        updateProductionState(cofiBrew);
+        String imageCofi = getImageCofi(cofiBrew);
+        String imageMachine = getProduced() ? filenameImageMachineWithProduct : filenameImageMachineWithoutProduct;
 
-        Timer productionTimer = new Timer();
-        String imageMachine = this.filenameImageMachineWithProduct;
-        String imageCofi = cofiBrew.getFilenameImageWithoutProduct();
+        waiterImageView.setImage(ResourceProvider.createImage(imageCofi));
+        updateMachineView(machineImageView, machineProgressBar, imageMachine);
+    }
 
-        boolean gotProduced = false;
+    private void updateProductionState(Player cofiBrew) {
+        ProductType productInHand = cofiBrew.getProductInHand();
+        boolean noProductInHand = productInHand.equals(ProductType.NONE);
+        boolean isCoffeeOrCake = productInHand.equals(ProductType.COFFEE) || productInHand.equals(ProductType.CAKE);
 
-        if (!this.produced && cofiBrew.getProductInHand().equals(ProductType.NONE)) {
-            this.setProduced(true);
-            gotProduced = true;
-        } else if (!this.produced && cofiBrew.getProductInHand().equals(ProductType.COFFEE)) {
-            this.setProduced(true);
-            gotProduced = true;
-            imageCofi = cofiBrew.getFilenameImageWithCoffee();
-        } else if (!this.produced && cofiBrew.getProductInHand().equals(ProductType.CAKE)) {
-            this.setProduced(true);
-            gotProduced = true;
-            imageCofi = cofiBrew.getFilenameImageWithCake();
-        } else {
-            if (cofiBrew.getProductInHand().equals(ProductType.NONE)){
-                this.setProduced(false);
-                imageMachine = this.filenameImageMachineWithoutProduct;
-                cofiBrew.setProductInHand(this.productType);
-                if (this.productType.equals(ProductType.COFFEE)){
-                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
-                } else {
-                    imageCofi = cofiBrew.getFilenameImageWithCake();
-                }
-            } else {
-                if (cofiBrew.getProductInHand().equals(ProductType.COFFEE)){
-                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
-                } else {
-                    imageCofi = cofiBrew.getFilenameImageWithCake();
-                }
-            }
-        }
-
-        waiterImageView.setImage(ResourceProvider.createImage((imageCofi)));
-
-        if (gotProduced) {
-            doProgressBarAnimation(productionTimer, machineImageView, machineProgressBar, ResourceProvider.createImage((imageMachine)));
-        } else {
-            machineProgressBar.setVisible(this.getProduced());
-            machineImageView.setImage(ResourceProvider.createImage(imageMachine));
+        if (!getProduced() && (noProductInHand || isCoffeeOrCake)) {
+            setProduced(true);
+        } else if (noProductInHand) {
+            setProduced(false);
+            cofiBrew.setProductInHand(this.productType);
         }
     }
 
+    private String getImageCofi(Player cofiBrew) {
+        return switch (cofiBrew.getProductInHand()) {
+            case COFFEE -> cofiBrew.getFilenameImageWithCoffee();
+            case CAKE -> cofiBrew.getFilenameImageWithCake();
+            default -> cofiBrew.getFilenameImageWithoutProduct();
+        };
+    }
 
+    private void updateMachineView(ImageView machineImageView, ProgressBar machineProgressBar, String imageMachine) throws FileNotFoundException {
+        if (getProduced()) {
+            Timer productionTimer = new Timer();
+            doProgressBarAnimation(productionTimer, machineImageView, machineProgressBar, ResourceProvider.createImage(imageMachine));
+        } else {
+            machineProgressBar.setVisible(false);
+            machineImageView.setImage(ResourceProvider.createImage(imageMachine));
+        }
+    }
 }
