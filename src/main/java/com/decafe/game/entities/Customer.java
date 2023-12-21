@@ -100,7 +100,7 @@ public class Customer {
         return this.orderLabel;
     }
 
-    public ProductType getRandomOrder() { //returns random order
+    public ProductType getRandomOrder() {
 
         Random random = new Random();
         int number = random.nextInt(2);
@@ -159,21 +159,23 @@ public class Customer {
 
 
     public static void spawnCustomers(){
-        if (customersInCoffeeShop.size() < MAX_NUMBER_CUSTOMERS && !freeChairs.isEmpty()) { //spawn a new customer this when under 3 customers are in the café
-            ImageView customerImage = getRandomCustomerPicture();
-            customerImage.setVisible(true);
-
-            ImageView order = getCorrectCustomerOrderLabel(customerImage);
-            ImageView smiley = getCorrectCustomerImage(customerImage, smileyImages);
-            ImageView coin = getCorrectCustomerImage(customerImage, coinImages);
-
-            Customer customer = new Customer(customerImage, order, freeSeatChosen, smiley, coin);
-            customersInCoffeeShop.add(customer);
-            allCustomers.add(customer);
-
-            SoundPlayer.playSound(MusicFiles.DOOR_BELL);
-            customer.waitingTime(); //place customer in the waitingTime of  60 seconds
+        if (customersInCoffeeShop.size() >= MAX_NUMBER_CUSTOMERS || freeChairs.isEmpty()) {
+            return;
         }
+
+        ImageView customerImage = getRandomCustomerPicture();
+        customerImage.setVisible(true);
+
+        ImageView order = getCorrectCustomerOrderLabel(customerImage);
+        ImageView smiley = getCorrectCustomerImage(customerImage, smileyImages);
+        ImageView coin = getCorrectCustomerImage(customerImage, coinImages);
+
+        Customer customer = new Customer(customerImage, order, freeSeatChosen, smiley, coin);
+        customersInCoffeeShop.add(customer);
+        allCustomers.add(customer);
+
+        SoundPlayer.playSound(MusicFiles.DOOR_BELL);
+        customer.waitingTime(); //place customer in the waitingTime of  60 seconds
     }
 
     public void startTimerSpawn(int duration, Timer spawnTimer){
@@ -314,18 +316,22 @@ public class Customer {
         this.coinImage.setVisible(true);
         this.coinImage.setDisable(false);
         if (this.leftUnhappy){
-            SoundPlayer.playSound(MusicFiles.WRONG_CHOICE);
-            this.coinImage.setImage(ResourceProvider.createImage(ImageFiles.COIN));
-            this.coinImage.setOnMouseClicked(event1 -> {
-                try {
-                    noMoneySpent(this);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            });
+            handleUnhappyCustomer();
         } else {
             SoundPlayer.playSound(MusicFiles.RIGHT_CHOICE);
         }
+    }
+
+    private void handleUnhappyCustomer() throws FileNotFoundException {
+        SoundPlayer.playSound(MusicFiles.WRONG_CHOICE);
+        this.coinImage.setImage(ResourceProvider.createImage(ImageFiles.COIN));
+        this.coinImage.setOnMouseClicked(event1 -> {
+            try {
+                noMoneySpent(this);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
 
