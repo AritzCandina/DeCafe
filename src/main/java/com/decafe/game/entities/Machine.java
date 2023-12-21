@@ -45,59 +45,59 @@ public class Machine {
     public void setProduced(Boolean produced){ this.produced = produced; }
 
 
-    public void doProgressBarAnimation(Timer productionTimer, ImageView machineImageView, ProgressBar machineProgressBar, Image imageProductProduced){
+    public void doProgressBarAnimation(Timer productionTimer, ImageView machineImageView, ProgressBar machineProgressBar, Image imageProductProduced) {
+        prepareMachineForProduction(machineImageView, machineProgressBar);
+        Timeline progressBarAnimation = createProgressBarAnimation(machineProgressBar);
+        Timeline statusAnimation = createStatusAnimation(machineProgressBar);
+        scheduleProductionCompletion(productionTimer, machineImageView, progressBarAnimation, statusAnimation, imageProductProduced);
+    }
+
+    private void prepareMachineForProduction(ImageView machineImageView, ProgressBar machineProgressBar) {
         machineImageView.setDisable(true);
         machineProgressBar.setVisible(true);
-
-        // source: https://stackoverflow.com/questions/18539642/progressbar-animated-javafx
-        Timeline task = new Timeline(
-                new KeyFrame(
-                        Duration.ZERO,
-                        new KeyValue(machineProgressBar.progressProperty(), 0)
-                ),
-                new KeyFrame(
-                        // Set the duration of the progressbar animation
-                        Duration.seconds(this.getProductionDuration()),
-                        new KeyValue(machineProgressBar.progressProperty(), 1)
-                )
-        );
-
-        IntegerProperty statusCountProperty = new SimpleIntegerProperty(1);
-        Timeline timelineBar = new Timeline(
-                new KeyFrame(
-                        // Set this value for the speed of the animation
-                        Duration.millis(PROGRESSBAR_KEYFRAME_DURATION),
-                        new KeyValue(statusCountProperty, PROGRESSBAR_MAX_STATUS)
-                )
-        );
-
-        timelineBar.setCycleCount(Timeline.INDEFINITE);
-        timelineBar.play();
-        statusCountProperty.addListener((ov, statusOld, statusNewNumber) -> {
-            int statusNew = statusNewNumber.intValue();
-            machineProgressBar.pseudoClassStateChanged(PseudoClass.getPseudoClass("status" + statusOld.intValue()), false);
-            machineProgressBar.pseudoClassStateChanged(PseudoClass.getPseudoClass("status" + statusNew), true);
-        });
-        task.playFromStart();
-
-        // source: https://stackoverflow.com/questions/2258066/run-a-java-function-after-a-specific-number-of-seconds
-        productionTimer.schedule(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        // After a certain time was reached change the Image of the Machine
-                        machineImageView.setImage(imageProductProduced);
-                        // And make the Machine clickable again
-                        machineImageView.setDisable(false);
-                        // And stop all timers
-                        task.stop();
-                        timelineBar.stop();
-                        productionTimer.cancel();
-                    }
-                },
-                this.productionDuration * PRODUCTION_DURATION_MULTIPLICATOR
-        );
     }
+
+    private Timeline createProgressBarAnimation(ProgressBar progressBar) {
+        Timeline task = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(this.getProductionDuration()), new KeyValue(progressBar.progressProperty(), 1))
+        );
+        task.playFromStart();
+        return task;
+    }
+
+    private Timeline createStatusAnimation(ProgressBar progressBar) {
+        IntegerProperty statusCountProperty = new SimpleIntegerProperty(1);
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(PROGRESSBAR_KEYFRAME_DURATION), new KeyValue(statusCountProperty, PROGRESSBAR_MAX_STATUS))
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+        statusCountProperty.addListener((ov, oldStatus, newStatus) -> updateProgressBarStatus(progressBar, oldStatus.intValue(), newStatus.intValue()));
+        return timeline;
+    }
+
+    private void updateProgressBarStatus(ProgressBar progressBar, int oldStatus, int newStatus) {
+        progressBar.pseudoClassStateChanged(PseudoClass.getPseudoClass("status" + oldStatus), false);
+        progressBar.pseudoClassStateChanged(PseudoClass.getPseudoClass("status" + newStatus), true);
+    }
+
+    private void scheduleProductionCompletion(Timer timer, ImageView machineImageView, Timeline progressBarAnimation, Timeline statusAnimation, Image productImage) {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                completeProduction(machineImageView, progressBarAnimation, statusAnimation, productImage);
+            }
+        }, this.productionDuration * PRODUCTION_DURATION_MULTIPLICATOR);
+    }
+
+    private void completeProduction(ImageView machineImageView, Timeline progressBarAnimation, Timeline statusAnimation, Image productImage) {
+        machineImageView.setImage(productImage);
+        machineImageView.setDisable(false);
+        progressBarAnimation.stop();
+        statusAnimation.stop();
+    }
+
 
     public void displayProduct (ImageView waiterImageView, ImageView machineImageView, Player cofiBrew, ProgressBar machineProgressBar) throws FileNotFoundException {
 
@@ -129,11 +129,11 @@ public class Machine {
                     imageCofi = cofiBrew.getFilenameImageWithCake();
                 }
             } else {
-                    if (cofiBrew.getProductInHand().equals(ProductType.COFFEE)){
-                        imageCofi = cofiBrew.getFilenameImageWithCoffee();
-                    } else {
-                        imageCofi = cofiBrew.getFilenameImageWithCake();
-                    }
+                if (cofiBrew.getProductInHand().equals(ProductType.COFFEE)){
+                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
+                } else {
+                    imageCofi = cofiBrew.getFilenameImageWithCake();
+                }
             }
         }
 
@@ -146,5 +146,6 @@ public class Machine {
             machineImageView.setImage(ResourceProvider.createImage(imageMachine));
         }
     }
+
 
 }
