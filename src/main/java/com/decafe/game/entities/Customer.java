@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.decafe.game.ProductType;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.SoundPlayer;
 import com.decafe.resources.files.ImageFiles;

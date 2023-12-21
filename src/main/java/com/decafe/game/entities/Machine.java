@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.decafe.game.ProductType;
 import com.decafe.resources.ResourceProvider;
 
 import javafx.animation.KeyFrame;

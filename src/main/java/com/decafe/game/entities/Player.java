@@ -1,7 +1,5 @@
 package com.decafe.game.entities;
 
-import com.decafe.game.MovementDirection;
-import com.decafe.game.ProductType;
 import com.decafe.resources.files.ImageFiles;
 
 public class Player {

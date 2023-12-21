@@ -2,10 +2,7 @@ package com.decafe.game;
 
 import java.io.FileNotFoundException;
 
-import com.decafe.game.entities.Customer;
-import com.decafe.game.entities.Machine;
-import com.decafe.game.entities.Player;
-import com.decafe.game.entities.Upgrade;
+import com.decafe.game.entities.*;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.files.ImageFiles;
 
@@ -65,10 +62,7 @@ public class Game {
         return playerUpgrade;
     }
 
-
     public int getCoinsEarned() { return coinsEarned; }
-
-
 
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
         if (!upgrade.isAlreadyUsedOnce() && this.coinsEarned >= upgrade.getCoinsNeeded()){
@@ -80,7 +74,7 @@ public class Game {
         }
     }
 
-    public void doUpgrade(String type, Player CofiBrew) throws FileNotFoundException {
+    public void doUpgrade(String type, Player cofiBrew) throws FileNotFoundException {
         switch (type) {
             case UPGRADE_TYPE_COFFEE -> {
                 coinsEarned = coffeeUpgrade.doUpgrade(coinsEarned);
@@ -92,7 +86,7 @@ public class Game {
             }
             case UPGRADE_TYPE_PLAYER -> {
                 coinsEarned = playerUpgrade.doUpgrade(coinsEarned);
-                CofiBrew.setMovement(UPGRADED_MOVEMENT_SPEED);
+                cofiBrew.setMovement(UPGRADED_MOVEMENT_SPEED);
             }
         }
     }

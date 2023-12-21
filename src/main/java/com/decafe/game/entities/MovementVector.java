@@ -1,4 +1,4 @@
-package com.decafe.game;
+package com.decafe.game.entities;
 
 /*
    This represents the offset to which the player is about to move
