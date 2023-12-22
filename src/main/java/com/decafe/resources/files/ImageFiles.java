@@ -3,7 +3,7 @@ package com.decafe.resources.files;
 public abstract class ImageFiles {
 
     public static final String EXTENSION_PNG = ".png";
-    public final static String COFI_BREW_UP = "CofiBrewUp" + EXTENSION_PNG;
+    public static final String COFI_BREW_UP = "CofiBrewUp" + EXTENSION_PNG;
     public static final String COFI_BREW_CAKE_LEFT = "CofiBrewCakeLeft"  + EXTENSION_PNG;
     public static final String COFI_BREW_COFFEE_LEFT = "CofiBrewCoffeeLeft" + EXTENSION_PNG;
     public static final String SIMLEY_GREEN = "smileygreen" + EXTENSION_PNG;

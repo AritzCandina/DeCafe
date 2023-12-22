@@ -229,12 +229,12 @@ public class Customer {
         this.sixtySecondsTimer.schedule(timerTask, 0, 1000);
     }
 
-    private void updateSmileyState(int seconds) {
-        if (seconds == CUSTOMER_WAITING_TIME - 1) {
+    private void updateSmileyState(int elapsedSeconds) {
+        if (elapsedSeconds == CUSTOMER_WAITING_TIME - 1) {
             setSmiley(SmileyColor.GREEN);
-        } else if (seconds == CUSTOMER_WAITING_TIME / 2) {
+        } else if (elapsedSeconds == CUSTOMER_WAITING_TIME / 2) {
             setSmiley(SmileyColor.YELLOW);
-        } else if (seconds == CUSTOMER_WAITING_TIME / 4) {
+        } else if (elapsedSeconds == CUSTOMER_WAITING_TIME / 4) {
             setSmiley(SmileyColor.RED);
         }
     }
