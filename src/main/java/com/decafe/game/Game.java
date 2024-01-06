@@ -10,11 +10,11 @@ import javafx.scene.image.ImageView;
 
 //Class that is used mainly to control certain assets of the Game like Machines, Upgrades and the Coin Score
 public class Game {
-    private final Machine coffeeMachine;
-    private final Machine cakeMachine;
-    private final Upgrade coffeeUpgrade;
-    private final Upgrade cakeUpgrade;
-    private final Upgrade playerUpgrade;
+    private Machine coffeeMachine = null;
+    private Machine cakeMachine = null;
+    private Upgrade coffeeUpgrade = null;
+    private Upgrade cakeUpgrade = null;
+    private Upgrade playerUpgrade = null;
     private int coinsEarned;
 
     private static final int UPGRADED_MACHINE_DURATION = 2;
@@ -28,9 +28,13 @@ public class Game {
     private static final String UPGRADE_TYPE_CAKE = "cake";
     private static final String UPGRADE_TYPE_PLAYER = "player";
 
-    private static final int COIN_REWARD_GREEN = 7;
-    private static final int COIN_REWARD_YELLOW = 5;
-    private static final int COIN_REWARD_RED = 3;
+    public static final int COIN_REWARD_GREEN = 7;
+    public static final int COIN_REWARD_YELLOW = 5;
+    public static final int COIN_REWARD_RED = 3;
+
+    public Game(){
+
+    }
 
     public Game(ImageView upgradeCoffee, ImageView upgradeCake, ImageView upgradePlayer){
         this.coffeeMachine = new Machine(MACHINE_DURATION, ImageFiles.COFFEE_MACHINE_WITH_COFFEE, ImageFiles.COFFEE_MACHINE, ProductType.COFFEE);
@@ -62,7 +66,10 @@ public class Game {
         return playerUpgrade;
     }
 
-    public int getCoinsEarned() { return coinsEarned; }
+    public int getCoinsEarned() {
+        return coinsEarned;
+    }
+
 
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
         if (!upgrade.isAlreadyUsedOnce() && this.coinsEarned >= upgrade.getCoinsNeeded()){
