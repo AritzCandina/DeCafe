@@ -10,23 +10,23 @@ import javafx.scene.image.ImageView;
 
 //Class that is used mainly to control certain assets of the Game like Machines, Upgrades and the Coin Score
 public class Game {
-    private Machine coffeeMachine = null;
-    private Machine cakeMachine = null;
-    private Upgrade coffeeUpgrade = null;
-    private Upgrade cakeUpgrade = null;
-    private Upgrade playerUpgrade = null;
-    private int coinsEarned;
+    public Machine coffeeMachine = null;
+    public Machine cakeMachine = null;
+    public Upgrade coffeeUpgrade = null;
+    public Upgrade cakeUpgrade = null;
+    public Upgrade playerUpgrade = null;
+    public int coinsEarned;
 
-    private static final int UPGRADED_MACHINE_DURATION = 2;
-    private static final int MACHINE_DURATION = 5;
-    private static final int UPGRADED_MOVEMENT_SPEED = 6;
+    public static final int UPGRADED_MACHINE_DURATION = 2;
+    public static final int MACHINE_DURATION = 5;
+    public static final int UPGRADED_MOVEMENT_SPEED = 6;
 
-    private static final int UPGRADE_COST_MACHINE = 20;
-    private static final int UPGRADE_COST_PLAYER = 40;
+    public static final int UPGRADE_COST_MACHINE = 20;
+    public static final int UPGRADE_COST_PLAYER = 40;
 
-    private static final String UPGRADE_TYPE_COFFEE = "coffee";
-    private static final String UPGRADE_TYPE_CAKE = "cake";
-    private static final String UPGRADE_TYPE_PLAYER = "player";
+    public static final String UPGRADE_TYPE_COFFEE = "coffee";
+    public static final String UPGRADE_TYPE_CAKE = "cake";
+    public static final String UPGRADE_TYPE_PLAYER = "player";
 
     public static final int COIN_REWARD_GREEN = 7;
     public static final int COIN_REWARD_YELLOW = 5;
@@ -45,6 +45,10 @@ public class Game {
         this.coinsEarned = 0;
 
     }
+
+    public Game(String coffeeUpgrade, String cakeUpgrade, String upgradeSkates) {
+    }
+
 
     public Machine getCakeMachine() {
         return cakeMachine;

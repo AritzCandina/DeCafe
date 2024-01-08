@@ -50,4 +50,12 @@ public class Upgrade {
         coin -= this.getCoinsNeeded();
         return coin;
     }
+
+    public boolean isDisabled() {
+
+        return false;
+    }
+
+    public void setDisabled(boolean b) {
+    }
 }

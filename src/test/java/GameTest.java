@@ -52,4 +52,8 @@ public class GameTest {
         game.setCoinsEarned(mockRedCustomer);
         assertEquals(initialCoins + Game.COIN_REWARD_RED, game.getCoinsEarned());
     }
+
+
+
+
 }
