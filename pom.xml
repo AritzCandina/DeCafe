@@ -16,6 +16,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>4.0.16-alpha</version> <!-- Check for the latest version on the TestFX website -->
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>16</version>
@@ -30,6 +36,7 @@
             <artifactId>javafx-media</artifactId>
             <version>11.0.2</version>
         </dependency>
+
         <!-- JUnit dependency -->
         <dependency>
             <groupId>junit</groupId>
@@ -37,6 +44,8 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
+
 
         <!-- Mockito dependency -->
         <dependency>

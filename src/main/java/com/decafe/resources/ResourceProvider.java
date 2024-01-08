@@ -39,4 +39,7 @@ public class ResourceProvider {
     }
 
 
+    public static Object createFileInputStream(String s) {
+        return s;
+    }
 }
