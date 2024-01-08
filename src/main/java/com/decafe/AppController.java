@@ -42,7 +42,7 @@ public class AppController implements Initializable {
     public Label coinsEarnedLabel;
     // Used for controlling the movement of the Player
     private BooleanProperty wPressed = new SimpleBooleanProperty();
-    private BooleanProperty aPressed = new SimpleBooleanProperty();
+    public BooleanProperty aPressed = new SimpleBooleanProperty();
     private BooleanProperty sPressed = new SimpleBooleanProperty();
     private BooleanProperty dPressed = new SimpleBooleanProperty();
     private BooleanBinding keyPressed = wPressed.or(aPressed).or(sPressed).or(dPressed);
@@ -191,7 +191,7 @@ public class AppController implements Initializable {
         }
     }
 
-    AnimationTimer animationTimer = new AnimationTimer() {
+    public AnimationTimer animationTimer = new AnimationTimer() {
 
         @Override
         public void handle(long timestamp) {
