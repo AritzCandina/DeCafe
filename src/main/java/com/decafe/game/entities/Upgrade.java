@@ -51,11 +51,5 @@ public class Upgrade {
         return coin;
     }
 
-    public boolean isDisabled() {
 
-        return false;
-    }
-
-    public void setDisabled(boolean b) {
-    }
 }

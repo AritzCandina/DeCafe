@@ -22,13 +22,13 @@ public class Customer {
     private Timer sixtySecondsTimer;
     private static Timer spawnTimer;
     private ImageView smiley;
-    private ImageView coinImage;
+    public ImageView coinImage;
 
     private SmileyColor smileyColor;
 
     private boolean alreadyOrdered;
 
-    private boolean leftUnhappy = true;
+    public boolean leftUnhappy = true;
 
     public static List<Customer> customersInCoffeeShop = new ArrayList<>();
     public static List<Customer> allCustomers = new ArrayList<>();
@@ -46,7 +46,7 @@ public class Customer {
     public static final int CUSTOMER_WAITING_TIME = 60;
 
     public Customer(){}
-    Customer(ImageView image, ImageView label, int chair, ImageView smiley, ImageView coinImage) {
+    public Customer(ImageView image, ImageView label, int chair, ImageView smiley, ImageView coinImage) {
         this.customer = image;
         this.orderLabel = label;
         this.alreadyOrdered = false;
@@ -59,6 +59,8 @@ public class Customer {
     public static Timer getSpawnTimer() {
         return spawnTimer;
     }
+
+
 
     public Timer getSixtySecondsTimer() {
         return sixtySecondsTimer;
@@ -90,6 +92,10 @@ public class Customer {
 
     public int getChair() { //get the number of the chair the customer is sitting
         return chair;
+    }
+
+    public void setChair(int chair) { //get the number of the chair the customer is sitting
+        this.chair = chair;
     }
 
     public ImageView getCorrectCustomerImage() { //returns the image of the customer

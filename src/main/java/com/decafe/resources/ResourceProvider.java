@@ -38,8 +38,4 @@ public class ResourceProvider {
         return new File("").getAbsolutePath() + File.separator + DIR_SRC + File.separator + DIR_MAIN + File.separator + DIR_RESOURCES + File.separator + DIR_COM + File.separator + DIR_DECAFE + File.separator;
     }
 
-
-    public static Object createFileInputStream(String s) {
-        return s;
-    }
 }

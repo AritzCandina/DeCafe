@@ -24,7 +24,7 @@ public class Machine {
     private final String filenameImageMachineWithProduct;
     private final ProductType productType;
 
-    private static final int PROGRESSBAR_KEYFRAME_DURATION = 300;
+    public static final int PROGRESSBAR_KEYFRAME_DURATION = 300;
     private static final long PRODUCTION_DURATION_MULTIPLICATOR = 1000;
     public static final int PROGRESSBAR_MAX_STATUS = 12;
 
@@ -52,12 +52,12 @@ public class Machine {
         scheduleProductionCompletion(productionTimer, machineImageView, progressBarAnimation, statusAnimation, imageProductProduced);
     }
 
-    private void prepareMachineForProduction(ImageView machineImageView, ProgressBar machineProgressBar) {
+    public void prepareMachineForProduction(ImageView machineImageView, ProgressBar machineProgressBar) {
         machineImageView.setDisable(true);
         machineProgressBar.setVisible(true);
     }
 
-    private Timeline createProgressBarAnimation(ProgressBar progressBar) {
+    public Timeline createProgressBarAnimation(ProgressBar progressBar) {
         Timeline task = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
                 new KeyFrame(Duration.seconds(this.getProductionDuration()), new KeyValue(progressBar.progressProperty(), 1))
@@ -66,7 +66,7 @@ public class Machine {
         return task;
     }
 
-    private Timeline createStatusAnimation(ProgressBar progressBar) {
+    public Timeline createStatusAnimation(ProgressBar progressBar) {
         IntegerProperty statusCountProperty = new SimpleIntegerProperty(1);
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(PROGRESSBAR_KEYFRAME_DURATION), new KeyValue(statusCountProperty, PROGRESSBAR_MAX_STATUS))
@@ -77,12 +77,12 @@ public class Machine {
         return timeline;
     }
 
-    private void updateProgressBarStatus(ProgressBar progressBar, int oldStatus, int newStatus) {
+    public void updateProgressBarStatus(ProgressBar progressBar, int oldStatus, int newStatus) {
         progressBar.pseudoClassStateChanged(PseudoClass.getPseudoClass("status" + oldStatus), false);
         progressBar.pseudoClassStateChanged(PseudoClass.getPseudoClass("status" + newStatus), true);
     }
 
-    private void scheduleProductionCompletion(Timer timer, ImageView machineImageView, Timeline progressBarAnimation, Timeline statusAnimation, Image productImage) {
+    public void scheduleProductionCompletion(Timer timer, ImageView machineImageView, Timeline progressBarAnimation, Timeline statusAnimation, Image productImage) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -91,7 +91,7 @@ public class Machine {
         }, this.productionDuration * PRODUCTION_DURATION_MULTIPLICATOR);
     }
 
-    private void completeProduction(ImageView machineImageView, Timeline progressBarAnimation, Timeline statusAnimation, Image productImage) {
+    public void completeProduction(ImageView machineImageView, Timeline progressBarAnimation, Timeline statusAnimation, Image productImage) {
         machineImageView.setImage(productImage);
         machineImageView.setDisable(false);
         progressBarAnimation.stop();
@@ -129,7 +129,7 @@ public class Machine {
         };
     }
 
-    private void updateMachineView(ImageView machineImageView, ProgressBar machineProgressBar, String imageMachine) throws FileNotFoundException {
+    public void updateMachineView(ImageView machineImageView, ProgressBar machineProgressBar, String imageMachine) throws FileNotFoundException {
         if (getProduced()) {
             Timer productionTimer = new Timer();
             doProgressBarAnimation(productionTimer, machineImageView, machineProgressBar, ResourceProvider.createImage(imageMachine));

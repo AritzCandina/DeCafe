@@ -41,9 +41,9 @@ public class AppController implements Initializable {
     // Label that shows the current amount of coins earned
     public Label coinsEarnedLabel;
     // Used for controlling the movement of the Player
-    private BooleanProperty wPressed = new SimpleBooleanProperty();
+    public BooleanProperty wPressed = new SimpleBooleanProperty();
     public BooleanProperty aPressed = new SimpleBooleanProperty();
-    private BooleanProperty sPressed = new SimpleBooleanProperty();
+    public BooleanProperty sPressed = new SimpleBooleanProperty();
     private BooleanProperty dPressed = new SimpleBooleanProperty();
     private BooleanBinding keyPressed = wPressed.or(aPressed).or(sPressed).or(dPressed);
 
@@ -206,7 +206,7 @@ public class AppController implements Initializable {
         }
     };
 
-    private void updatePlayerPosition(MovementVector movementVector) {
+    public void updatePlayerPosition(MovementVector movementVector) {
         waiterImageView.setLayoutX(waiterImageView.getLayoutX() + movementVector.getX());
         waiterImageView.setLayoutY(waiterImageView.getLayoutY() + movementVector.getY());
 
@@ -216,7 +216,7 @@ public class AppController implements Initializable {
         }
     }
 
-    private MovementVector determineNewMovementVector(double moveDistance) {
+    public MovementVector determineNewMovementVector(double moveDistance) {
         MovementVector movementVector = new MovementVector();
         if (wPressed.get()) {
             movementVector.setY(-moveDistance);
@@ -248,7 +248,7 @@ public class AppController implements Initializable {
         }
     }
 
-    private double determineMoveDistance() {
+    public double determineMoveDistance() {
         int playerMovementSpeed = player.getMovementSpeed();
 
         double moveDistance = playerMovementSpeed;

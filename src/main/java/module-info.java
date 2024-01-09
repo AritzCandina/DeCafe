@@ -11,5 +11,6 @@ module com.decafe {
     opens com.decafe.game to javafx.fxml;
     exports com.decafe.game.entities;
     opens com.decafe.game.entities to javafx.fxml;
+    exports com.decafe.resources;
 
 }

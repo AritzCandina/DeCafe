@@ -1,17 +1,20 @@
 import com.decafe.game.Game;
 import com.decafe.game.entities.Customer;
+import javafx.scene.image.ImageView;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.testfx.framework.junit5.ApplicationExtension;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-public class GameTest {
+
+@ExtendWith(ApplicationExtension.class)
+public class GameCoinsEearnedTest {
 
     private Game game;
 
@@ -25,11 +28,20 @@ public class GameTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        game = new Game();
-
+        ImageView dummyImageView = new ImageView();
+        game = new Game(dummyImageView, dummyImageView, dummyImageView);
         when(mockGreenCustomer.isGreen()).thenReturn(true);
         when(mockYellowCustomer.isYellow()).thenReturn(true);
         when(mockRedCustomer.isRed()).thenReturn(true);
+    }
+
+    @Test
+    public void testConstructorWithImageViews() {
+        assertNotNull("Coffee machine should not be null", game.getCoffeeMachine());
+        assertNotNull("Cake machine should not be null", game.getCakeMachine());
+        assertNotNull("Coffee upgrade should not be null", game.getCoffeeUpgrade());
+        assertNotNull("Cake upgrade should not be null", game.getCakeUpgrade());
+        assertNotNull("Player upgrade should not be null", game.getPlayerUpgrade());
     }
 
     @Test
@@ -52,8 +64,6 @@ public class GameTest {
         game.setCoinsEarned(mockRedCustomer);
         assertEquals(initialCoins + Game.COIN_REWARD_RED, game.getCoinsEarned());
     }
-
-
 
 
 }

@@ -46,10 +46,6 @@ public class Game {
 
     }
 
-    public Game(String coffeeUpgrade, String cakeUpgrade, String upgradeSkates) {
-    }
-
-
     public Machine getCakeMachine() {
         return cakeMachine;
     }

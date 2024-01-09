@@ -1,57 +1,30 @@
 import com.decafe.resources.ResourceProvider;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import javafx.scene.image.Image;
+import com.decafe.resources.files.ImageFiles;
+import com.decafe.resources.files.MusicFiles;
 import javafx.scene.media.AudioClip;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import org.junit.jupiter.api.Test;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ResourceProvider.class, FileInputStream.class})
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class ResourceProviderTest {
 
-    @Mock
-    private FileInputStream mockFileInputStream;
-
-    @InjectMocks
-    private ResourceProvider resourceProvider;
 
     @Test
-    public void createImage_validFilename_returnsImage() throws Exception {
-        // Mocking static method
-        mockStatic(ResourceProvider.class);
-        when(ResourceProvider.createFileInputStream(anyString())).thenReturn(mockFileInputStream);
+    public void createImage_ValidFilename_ReturnsImage() throws IOException {
 
-        // Mocking constructor
-        whenNew(Image.class).withAnyArguments().thenReturn(null); // You may need to adjust this based on the actual Image class
+        javafx.scene.image.Image result = ResourceProvider.createImage(ImageFiles.COFI_BREW_CAKE_UP);
 
-        String validFilename = "testImage.png";
-        Image result = resourceProvider.createImage(validFilename);
-
-        // Add assertions or verifications based on your actual implementation
+        assertNotNull(result);
     }
 
     @Test
-    public void createAudioFile_validFilename_returnsAudioClip() throws Exception {
-        // Mocking static method
-        mockStatic(ResourceProvider.class);
-        when(ResourceProvider.createFileInputStream(anyString())).thenReturn(mockFileInputStream);
+    public void createAudioFile_ValidFilename_ReturnsAudioClip() {
 
-        // Mocking constructor
-        whenNew(AudioClip.class).withAnyArguments().thenReturn(null); // You may need to adjust this based on the actual AudioClip class
+        AudioClip result = ResourceProvider.createAudioFile(MusicFiles.DOOR_BELL);
 
-        String validFilename = "testAudio.mp3";
-        AudioClip result = resourceProvider.createAudioFile(validFilename);
-
-        // Add assertions or verifications based on your actual implementation
+        assertNotNull(result);
     }
+
 }
