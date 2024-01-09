@@ -1,3 +1,5 @@
+package com.decafe.tests;
+
 import com.decafe.ApplicationMain;
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.files.Scenes;

@@ -1,3 +1,5 @@
+package com.decafe.tests;
+
 import com.decafe.game.entities.Upgrade;
 import com.decafe.resources.files.ImageFiles;
 import javafx.scene.image.ImageView;

@@ -1,3 +1,5 @@
+package com.decafe.tests;
+
 import com.decafe.resources.ResourceProvider;
 import com.decafe.resources.files.ImageFiles;
 import com.decafe.resources.files.MusicFiles;

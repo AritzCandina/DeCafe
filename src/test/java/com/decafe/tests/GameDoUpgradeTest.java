@@ -1,3 +1,5 @@
+package com.decafe.tests;
+
 import com.decafe.game.Game;
 import com.decafe.game.entities.Machine;
 import com.decafe.game.entities.Player;
