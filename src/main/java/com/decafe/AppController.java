@@ -44,7 +44,7 @@ public class AppController implements Initializable {
     public BooleanProperty wPressed = new SimpleBooleanProperty();
     public BooleanProperty aPressed = new SimpleBooleanProperty();
     public BooleanProperty sPressed = new SimpleBooleanProperty();
-    private BooleanProperty dPressed = new SimpleBooleanProperty();
+    public BooleanProperty dPressed = new SimpleBooleanProperty();
     private BooleanBinding keyPressed = wPressed.or(aPressed).or(sPressed).or(dPressed);
 
     // Images of the Object the Player can interact with
@@ -514,28 +514,28 @@ public class AppController implements Initializable {
         }
     }
 
-    private void updateGameCoinsEarned(Customer customer) {
+    public void updateGameCoinsEarned(Customer customer) {
         game.setCoinsEarned(customer);
     }
 
-    private void hideCoinImage(MouseEvent e) {
+    public void hideCoinImage(MouseEvent e) {
         ImageView coinImage = (ImageView) e.getSource();
         coinImage.setVisible(false);
         coinImage.setDisable(true);
     }
 
-    private boolean isGameCompletionCriteriaMet() {
+    public boolean isGameCompletionCriteriaMet() {
         return game.getCoinsEarned() >= 80;
     }
 
-    private void updateGameUI() throws FileNotFoundException {
+    public void updateGameUI() throws FileNotFoundException {
         checkUpgradePossible(game.getCoffeeUpgrade());
         checkUpgradePossible(game.getCakeUpgrade());
         checkUpgradePossible(game.getPlayerUpgrade());
         coinsEarnedLabel.setText(String.valueOf(game.getCoinsEarned()));
     }
 
-    private void spawnNewCustomer(Customer customer) {
+    public void spawnNewCustomer(Customer customer) {
         try {
             customer.startTimerSpawn(SPAWN_TIME_MEDIUM, Customer.getSpawnTimer());
         } catch (NullPointerException y) {
@@ -543,7 +543,7 @@ public class AppController implements Initializable {
         }
     }
 
-    private void completeGame() {
+    public void completeGame() {
         stopTimers();
         safelySwitchToEndScreen();
     }

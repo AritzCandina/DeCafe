@@ -2,7 +2,10 @@ package com.decafe.tests;
 
 import com.decafe.AppController;
 import com.decafe.game.Game;
+import com.decafe.game.entities.MovementVector;
 import com.decafe.game.entities.Player;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -17,8 +20,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 
 import java.io.FileNotFoundException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(ApplicationExtension.class)
@@ -28,6 +30,11 @@ public class AppControllerTest extends ApplicationTest {
     private Game game;
     private Player player;
     private Label coinsEarnedLabel;
+    private BooleanProperty wPressed;
+    private BooleanProperty sPressed;
+    private BooleanProperty aPressed;
+    private BooleanProperty dPressed;
+
 
 
     @Override
@@ -38,12 +45,22 @@ public class AppControllerTest extends ApplicationTest {
         ImageView playerUpgradeImageView = Mockito.mock(ImageView.class);
         ImageView waiterImageView = Mockito.mock(ImageView.class);
 
+        wPressed = new SimpleBooleanProperty(false);
+        sPressed = new SimpleBooleanProperty(false);
+        aPressed = new SimpleBooleanProperty(false);
+        dPressed = new SimpleBooleanProperty(false);
+
         appController = new AppController();
         appController.game = game;
         appController.player = player;
         appController.coinsEarnedLabel = coinsEarnedLabel;
         appController.waiterImageView = waiterImageView;
         appController.upgradePlayerImageView = playerUpgradeImageView;
+
+        appController.wPressed = wPressed;
+        appController.sPressed = sPressed;
+        appController.aPressed = aPressed;
+        appController.dPressed = dPressed;
     }
 
 
@@ -85,6 +102,69 @@ public class AppControllerTest extends ApplicationTest {
 
         assertFalse(appController.wPressed.get());
     }
+
+    @Test
+    public void testDetermineNewMovementVectorNoKeysPressed() {
+        double moveDistance = 10.0;
+        MovementVector result = appController.determineNewMovementVector(moveDistance);
+        assertEquals(0.0, result.getX(),0.001);
+        assertEquals(0.0, result.getY(),0.001);
+    }
+
+    @Test
+    public void testDetermineNewMovementVectorWPressed() {
+
+        double moveDistance = 10.0;
+        wPressed.set(true);
+
+        MovementVector result = appController.determineNewMovementVector(moveDistance);
+        assertEquals(0.0, result.getX(), 0.001);
+        assertEquals(-moveDistance, result.getY(), 0.001);
+    }
+
+    @Test
+    public void testDetermineNewMovementVectorSPressed() {
+        double moveDistance = 10.0;
+        sPressed.set(true);
+
+        MovementVector result = appController.determineNewMovementVector(moveDistance);
+        assertEquals(0.0, result.getX(), 0.001);
+        assertEquals(moveDistance, result.getY(), 0.001);
+    }
+
+    @Test
+    public void testDetermineNewMovementVectorAPressed() {
+        double moveDistance = 10.0;
+        aPressed.set(true);
+
+        MovementVector result = appController.determineNewMovementVector(moveDistance);
+        assertEquals(-moveDistance, result.getX(), 0.001);
+        assertEquals(0.0, result.getY(), 0.001);
+    }
+
+    @Test
+    public void testDetermineNewMovementVectorDPressed() {
+        double moveDistance = 10.0;
+        dPressed.set(true);
+
+        MovementVector result = appController.determineNewMovementVector(moveDistance);
+        assertEquals(moveDistance, result.getX(), 0.001);
+        assertEquals(0.0, result.getY(), 0.001);
+    }
+
+    @Test
+    public void testDetermineNewMovementVectorMultipleKeysPressed() {
+        double moveDistance = 10.0;
+        wPressed.set(true);
+        aPressed.set(true);
+        dPressed.set(true);
+
+        MovementVector result = appController.determineNewMovementVector(moveDistance);
+        assertEquals(moveDistance, result.getX(), 0.001);
+        assertEquals(-moveDistance, result.getY(), 0.001);
+    }
+
+
 
 
 }
