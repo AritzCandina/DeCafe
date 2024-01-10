@@ -3,15 +3,15 @@ package com.decafe.tests;
 import com.decafe.game.Game;
 import com.decafe.game.entities.Customer;
 import javafx.scene.image.ImageView;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testfx.framework.junit5.ApplicationExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 
@@ -27,7 +27,7 @@ public class GameCoinsEearnedTest {
     @Mock
     private Customer mockRedCustomer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         ImageView dummyImageView = new ImageView();
@@ -39,11 +39,11 @@ public class GameCoinsEearnedTest {
 
     @Test
     public void testConstructorWithImageViews() {
-        assertNotNull("Coffee machine should not be null", game.getCoffeeMachine());
-        assertNotNull("Cake machine should not be null", game.getCakeMachine());
-        assertNotNull("Coffee upgrade should not be null", game.getCoffeeUpgrade());
-        assertNotNull("Cake upgrade should not be null", game.getCakeUpgrade());
-        assertNotNull("Player upgrade should not be null", game.getPlayerUpgrade());
+        assertNotNull( game.getCoffeeMachine());
+        assertNotNull( game.getCakeMachine());
+        assertNotNull(game.getCoffeeUpgrade());
+        assertNotNull(game.getCakeUpgrade());
+        assertNotNull(game.getPlayerUpgrade());
     }
 
     @Test

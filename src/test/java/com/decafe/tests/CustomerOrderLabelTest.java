@@ -4,10 +4,12 @@ import com.decafe.game.entities.Customer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.junit.Test;
-import org.testfx.framework.junit.ApplicationTest;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 public class CustomerOrderLabelTest extends ApplicationTest {
 
@@ -33,7 +35,7 @@ public class CustomerOrderLabelTest extends ApplicationTest {
         interact(() -> {
             ImageView result = Customer.getCorrectCustomerOrderLabel(customerImages[1]);
 
-            assertEquals("Should return the corresponding order label ImageView from orderLabels", orderLabels[1], result);
+            assertEquals(orderLabels[1], result);
         });
     }
 
@@ -44,7 +46,7 @@ public class CustomerOrderLabelTest extends ApplicationTest {
 
             ImageView result = Customer.getCorrectCustomerOrderLabel(newCustomerImage);
 
-            assertNull("Should return null when no match is found", result);
+            assertNull(result);
         });
     }
 

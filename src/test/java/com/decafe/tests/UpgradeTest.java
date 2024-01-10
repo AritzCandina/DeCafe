@@ -13,8 +13,8 @@ import org.testfx.framework.junit5.ApplicationTest;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class UpgradeTest extends ApplicationTest {
@@ -27,7 +27,7 @@ public class UpgradeTest extends ApplicationTest {
     private String filenameUpgradeUsed = "upgradeSkatesUsed.png";
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) {
         imageView = new ImageView();
 
 
@@ -79,6 +79,17 @@ public class UpgradeTest extends ApplicationTest {
 
         String result = upgrade.getFilenameUpgradeNotUsed();
         assertEquals(filenameUpgradeNotUsed, result);
+    }
+
+
+    @Test
+    void testGetUpgradeImageView() {
+        ImageView expectedImageView = new ImageView();
+        Upgrade upgrade = new Upgrade(10, false, "upgradeNotUsed.png", "upgradeUsed.png", expectedImageView);
+
+        ImageView actualImageView = upgrade.getUpgradeImageView();
+
+        assertEquals(expectedImageView, actualImageView, "The returned ImageView should be the same as the one set in the constructor.");
     }
 
 }

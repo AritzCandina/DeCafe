@@ -1,20 +1,22 @@
 package com.decafe.tests;
 
 import com.decafe.game.entities.Customer;
+import com.decafe.game.entities.SmileyColor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @ExtendWith(ApplicationExtension.class)
 public class CustomerTest extends ApplicationTest {
@@ -68,11 +70,44 @@ public class CustomerTest extends ApplicationTest {
                 throw new RuntimeException(e);
             }
 
-            assertFalse("Coin image should be invisible", customer.coinImage.isVisible());
-            assertTrue("Coin image should be disabled", customer.coinImage.isDisabled());
-            assertTrue("Free chairs should contain the customer's chair", Customer.freeChairs.contains(chairNumber));
-            assertEquals("Free chairs list should increase by 1", initialChairCount + 1, Customer.freeChairs.size());
+            assertFalse(customer.coinImage.isVisible());
+            assertTrue(customer.coinImage.isDisabled());
+            assertTrue(Customer.freeChairs.contains(chairNumber));
+            assertEquals(initialChairCount + 1, Customer.freeChairs.size());
         });
     }
+
+    @Test
+    void addFreeSeatTest() {
+        int chairNumber = 5;
+        Customer.addFreeSeat(chairNumber);
+        assertTrue(Customer.freeChairs.contains(chairNumber));
+    }
+
+    @Test
+    void isGreenTest() {
+        customer.setSmileyColor(SmileyColor.GREEN);
+        assertTrue(customer.isGreen());
+        assertFalse(customer.isRed());
+        assertFalse(customer.isYellow());
+    }
+
+    @Test
+    void isRedTest() {
+        customer.setSmileyColor(SmileyColor.RED);
+        assertTrue(customer.isRed());
+        assertFalse(customer.isGreen());
+        assertFalse(customer.isYellow());
+    }
+
+    @Test
+    void isYellowTest() {
+        customer.setSmileyColor(SmileyColor.YELLOW);
+        assertTrue(customer.isYellow());
+        assertFalse(customer.isGreen());
+        assertFalse(customer.isRed());
+    }
+
+
 
 }

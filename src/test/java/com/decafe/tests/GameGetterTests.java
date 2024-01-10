@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
             Upgrade result = game.getCakeUpgrade();
 
-            assertEquals(null, result);
+            assertNull(result);
         }
 
         @Test
@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
             Upgrade result = game.getCoffeeUpgrade();
 
-            assertEquals(null, result);
+            assertNull(result);
         }
 
         @Test
@@ -52,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
             Upgrade result = game.getPlayerUpgrade();
 
-            assertEquals(null, result);
+            assertNull(result);
         }
 
         @Test

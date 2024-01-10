@@ -3,7 +3,7 @@ package com.decafe.game.entities;
 import com.decafe.resources.files.ImageFiles;
 
 public class Player {
-    private static final int DEFAULT_MOVEMENT_SPEED = 4;
+    public static final int DEFAULT_MOVEMENT_SPEED = 4;
 
     private final String filenameImageWithoutProduct;
     private final String filenameImageWithCoffee;

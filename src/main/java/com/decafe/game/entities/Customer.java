@@ -56,6 +56,10 @@ public class Customer {
         this.sixtySecondsTimer = new Timer();
     }
 
+    public SmileyColor getSmileyColor(){
+        return this.smileyColor;
+    }
+
     public static Timer getSpawnTimer() {
         return spawnTimer;
     }
@@ -64,6 +68,15 @@ public class Customer {
 
     public Timer getSixtySecondsTimer() {
         return sixtySecondsTimer;
+    }
+
+
+    public void setSmileyColor(SmileyColor smileyColor) {
+        this.smileyColor = smileyColor;
+    }
+
+    public void setSixtySecondsTimer(Timer timer) {
+        this.sixtySecondsTimer = timer;
     }
 
     public static void addFreeSeat(int chairLeft) { //add chair number to the list when customer has left
@@ -235,7 +248,7 @@ public class Customer {
         this.sixtySecondsTimer.schedule(timerTask, 0, 1000);
     }
 
-    private void updateSmileyState(int elapsedSeconds) {
+    public void updateSmileyState(int elapsedSeconds) {
         if (elapsedSeconds == CUSTOMER_WAITING_TIME - 1) {
             setSmiley(SmileyColor.GREEN);
         } else if (elapsedSeconds == CUSTOMER_WAITING_TIME / 2) {

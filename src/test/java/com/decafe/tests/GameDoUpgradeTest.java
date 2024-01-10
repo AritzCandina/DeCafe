@@ -32,9 +32,9 @@ public class GameDoUpgradeTest {
     private Game game;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        game = new Game(); // Initialize Game without parameters for simplicity
+        game = new Game();
         game.coffeeMachine = coffeeMachine;
         game.cakeMachine = cakeMachine;
         game.coffeeUpgrade = coffeeUpgrade;

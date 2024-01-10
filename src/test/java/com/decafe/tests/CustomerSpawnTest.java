@@ -4,13 +4,15 @@ import com.decafe.game.entities.Customer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.junit.Before;
-import org.junit.Test;
-import org.testfx.framework.junit.ApplicationTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class CustomerSpawnTest extends ApplicationTest {
 
@@ -20,7 +22,7 @@ public class CustomerSpawnTest extends ApplicationTest {
     private ImageView[] coinImages;
     private ImageView[] orderLabels;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Customer.customersInCoffeeShop = new ArrayList<>();
         Customer.allCustomers = new ArrayList<>();
@@ -42,7 +44,7 @@ public class CustomerSpawnTest extends ApplicationTest {
             customerImages[i] = new ImageView(new Image("file:customer" + i + ".png"));
             smileyImages[i] = new ImageView(new Image("file:smiley" + i + ".png"));
             coinImages[i] = new ImageView(new Image("file:coin" + i + ".png"));
-            orderLabels[i] = new ImageView(new Image("file:orderLabel" + i + ".png"));  // Initialize each ImageView in orderLabels
+            orderLabels[i] = new ImageView(new Image("file:orderLabel" + i + ".png"));
         }
     }
     @Test
@@ -51,8 +53,8 @@ public class CustomerSpawnTest extends ApplicationTest {
 
         Customer.spawnCustomers();
 
-        assertEquals("One customer should be added to customersInCoffeeShop", 1, Customer.customersInCoffeeShop.size());
-        assertEquals("One customer should be added to allCustomers", 1, Customer.allCustomers.size());
+        assertEquals( 1, Customer.customersInCoffeeShop.size());
+        assertEquals( 1, Customer.allCustomers.size());
 
     }
 
